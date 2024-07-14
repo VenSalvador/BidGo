@@ -104,7 +104,7 @@ const submit = () => {
       </div>
       <div class="flex justify-center space-x-4 mt-4">
         <div class="shrink-0 flex items-center">
-          <Link :href="route('carrier-dashboard-page')">
+          <Link :href="route('dashboard')">
             <img src="../../../assets/google-logo.png" alt="Google" class="w-10 h-10"/>
           </Link>
         </div>
