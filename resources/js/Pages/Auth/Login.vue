@@ -1,31 +1,35 @@
 <script setup>
+import { ref } from "vue";
+import { useForm } from "@inertiajs/vue3";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/vue/24/solid";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import { Head, Link, useForm } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
 
-defineProps({
-  canResetPassword: {
-    type: Boolean,
-  },
-  status: {
-    type: String,
-  },
-});
-
+const showPassword = ref(false);
 const form = useForm({
   email: "",
   password: "",
   remember: false,
 });
 
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value;
+};
+
 const submit = () => {
   form.post(route("login"), {
     onFinish: () => form.reset("password"),
   });
 };
+
+const props = defineProps({
+  canResetPassword: Boolean,
+  status: String,
+});
 </script>
 
 <template>
@@ -33,15 +37,15 @@ const submit = () => {
     <Head title="Log in" />
 
     <div
-      v-if="status"
+      v-if="props.status"
       class="flex flex-col items-center justify-center min-h-screen bg-gray-100"
     >
-      {{ status }}
+      {{ props.status }}
     </div>
 
     <form @submit.prevent="submit">
       <div>
-        <InputLabel for="email" value="Email" />
+        <InputLabel for="email" value="Email" class="text-xl" />
 
         <TextInput
           id="email"
@@ -57,25 +61,36 @@ const submit = () => {
       </div>
 
       <div class="mt-4">
-        <InputLabel for="password" value="Password" />
+        <InputLabel for="password" value="Password" class="text-xl"/>
 
-        <TextInput
-          id="password"
-          type="password"
-          class="mt-1 block w-full"
-          v-model="form.password"
-          required
-          autocomplete="current-password"
-        />
+        <div class="relative">
+          <TextInput
+            id="password"
+            :type="showPassword ? 'text' : 'password'"
+            class="mt-1 block w-full pr-10"
+            v-model="form.password"
+            required
+            autocomplete="current-password"
+          />
+          <span
+            @click="togglePasswordVisibility"
+            class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+          >
+            <component
+              :is="showPassword ? EyeSlashIcon : EyeIcon"
+              class="h-5 w-5 text-gray-500"
+            />
+          </span>
+        </div>
 
         <InputError class="mt-2" :message="form.errors.password" />
       </div>
 
-      <div class="flex items-center justify-end mb-4">
+      <div class="flex items-center justify-end mb-4 mt-2 text-xl">
         <Link
-          v-if="canResetPassword"
+          v-if="props.canResetPassword"
           :href="route('password.request')"
-          class="text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          class="text-md text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Forgot password?
         </Link>
@@ -85,7 +100,7 @@ const submit = () => {
           class="h-14 w-full"
           :style="{
             borderRadius: '1.2rem',
-            fontSize: '2rem',
+            fontSize: '1.75rem',
             padding: '0.75rem 1.5rem',
           }"
           :class="{ 'opacity-25': form.processing }"
@@ -105,14 +120,28 @@ const submit = () => {
       <div class="flex justify-center space-x-4 mt-4">
         <div class="shrink-0 flex items-center">
           <Link :href="route('dashboard')">
-            <img src="../../../assets/google-logo.png" alt="Google" class="w-10 h-10"/>
+            <img
+              src="../../../assets/google-logo.png"
+              alt="Google"
+              class="w-10 h-10"
+            />
           </Link>
         </div>
         <div class="shrink-0 flex items-center">
           <Link :href="route('dashboard')">
-            <img src="../../../assets/fb-logo.png" alt="Facebook" class="w-10 h-10"/>
+            <img
+              src="../../../assets/fb-logo.png"
+              alt="Facebook"
+              class="w-10 h-10"
+            />
           </Link>
         </div>
+      </div>
+      <div class="flex items-center justify-center mb-4 pt-5">
+        <InputLabel class="text-xl">
+          Don't have an account yet?
+          <Link :href="route('register')" class="underline">SIGN UP</Link>
+        </InputLabel>
       </div>
     </form>
   </GuestLayout>
