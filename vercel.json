@@ -6,6 +6,11 @@
     }, 
 
     "routes": [ 
+        {
+            "src": "http://(.*)",
+            "headers": { "Location": "https://$1" },
+            "status": 301
+        },
         { 
             "src": "/(.*)", 
             "dest": "/api/index.php" 
