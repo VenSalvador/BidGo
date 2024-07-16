@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('/landing-page', function () {
-    return Inertia::render('LandingPage');
+    return Inertia::render('ClientPages/LandingPage');
 });
 
 //Item Controller Routes
