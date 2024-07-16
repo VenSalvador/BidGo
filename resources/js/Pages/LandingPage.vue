@@ -1,10 +1,8 @@
 <template>
+  <GuestLayout>
+    <Head title="BidGo" />
     <v-main>
       <div class="landing-page pb-10 container-fluid" ref="landingPage">
-        <!-- Logo at the top -->
-        <div class="logo-container text-center mb-4">
-          <img src="../../assets/business-logo.png" alt="Business Logo" class="logo">
-        </div>
         <v-row>
             <v-col cols="12">
               <div class="container mx-auto px-3 py-4">
@@ -89,13 +87,13 @@
         </v-row>
       </div>
     </v-main>
-    <NavBar/>
+  </GuestLayout>
   </template>
 
   <script setup>
   import { ref, onMounted } from 'vue';
-  import axios from 'axios';
-  import NavBar from '../Components/NavBar.vue';
+  import GuestLayout from '@/Layouts/GuestLayout.vue';
+  import { Head } from '@inertiajs/inertia-vue3';
 
   const landingPage = ref(null);
   const items = ref([]);
