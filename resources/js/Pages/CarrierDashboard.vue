@@ -150,7 +150,7 @@
   import { usePage } from '@inertiajs/inertia-vue3';
   import axios from 'axios';
   import moment from 'moment';
-  import ItemCard from '../../../Components/ItemCard.vue';
+  import ItemCard from '../Components/ItemCard.vue';
   import { useWindowScroll } from '@vueuse/core';
 
   const { props } = usePage();
