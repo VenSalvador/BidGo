@@ -19,6 +19,10 @@ Route::get('/landing-page', function () {
     return Inertia::render('ClientPages/LandingPage');
 });
 
+Route::get('/carrier-dashboard', function () {
+    return Inertia::render('CarrierDashboard');
+});
+
 //Item Controller Routes
 Route::get('/items', [ItemController::class, 'index'])->name('items.index');
 Route::get('/vehicles', [ItemController::class, 'getVehicles'])->name('vehicles.index');
@@ -31,6 +35,11 @@ Route::post('/bids/{id}', [BidController::class, 'update'])->name('bids.update')
 Route::delete('/bids/{id}', [BidController::class, 'destroy'])->name('bids.destroy');
 Route::get('/lowest-bids', [BidController::class, 'lowestBids'])->name('bids.lowestBids');
 
+// web.php
+
+use App\Http\Controllers\CarrierController; // Ensure you have this controller
+
+Route::get('/carrier-dashboard', [CarrierController::class, 'showDashboard'])->name('carrier.dashboard');
 
 
 Route::get('/dashboard', function () {
