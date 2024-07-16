@@ -31,4 +31,10 @@ class Item extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function bids()
+{
+    return $this->hasMany(Bid::class);
+}
+
 }

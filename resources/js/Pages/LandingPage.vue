@@ -3,7 +3,7 @@
       <div class="landing-page pb-10 container-fluid" ref="landingPage">
         <!-- Logo at the top -->
         <div class="logo-container text-center mb-4">
-          <img src="../../assets/business-logo.png" alt="Business Logo" class="logo">
+          <img src="../../assets/BidGo-Transparent.png" alt="Business Logo" class="logo">
         </div>
         <v-row>
             <v-col cols="12">
