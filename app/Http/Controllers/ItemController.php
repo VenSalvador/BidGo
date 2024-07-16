@@ -13,13 +13,13 @@ class ItemController extends Controller
     public function index()
     {
         $items = Item::all();
-        return Inertia::render('Items/Index', ['items' => $items]);
+        return response()->json($items);
     }
 
     public function getVehicles()
     {
         $vehicles = Vehicle::all();
-        return Inertia::render('Vehicles/Index', ['vehicles' => $vehicles]);
+        return response()->json($vehicles);
     }
 
     public function submitBid(Request $request)
@@ -35,7 +35,7 @@ class ItemController extends Controller
             'user_id' => 1, // Assign user_id as 1
         ]);
 
-        return redirect()->back()->with('message', 'Bid submitted successfully!');
+        return response()->json(['message' => 'Bid submitted successfully!']);
     }
 
     public function filterByVehicleType(Request $request)
@@ -47,7 +47,6 @@ class ItemController extends Controller
         $vehicleType = $validatedData['vehicle_type'];
         $items = Item::where('vehicle_type', $vehicleType)->get();
 
-        return Inertia::render('Items/Index', ['items' => $items]);
+        return response()->json($items);
     }
 }
-

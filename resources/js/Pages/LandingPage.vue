@@ -1,6 +1,19 @@
 <template>
   <GuestLayout>
     <Head title="BidGo" />
+
+    <Link
+      :href="route('login')"
+      class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+    >
+      Temporary Log in
+    </Link>
+    <Link
+      :href="route('register')"
+      class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+    >
+      Temporary Register
+    </Link>
     <div class="landing-page pb-10 container mx-auto px-4">
       <div
         class="relative bg-white rounded-lg overflow-hidden w-full p-3 mx-auto lg:max-w-screen-lg shadow-lg cursor-pointer hover:transform hover:scale-105 transition-transform duration-300 ease-in-out"
@@ -9,7 +22,7 @@
         <div class="bg-orange-500 p-3 rounded-t-lg">
           <div class="block sm:hidden w-full mb-3 text-center">
             <img
-              src="../../../assets/programmer.jpg"
+              src="../../assets/programmer.jpg"
               alt="Image"
               class="w-3/4 h-auto rounded-md mx-auto"
             />
@@ -57,7 +70,7 @@
               class="absolute inset-0 bg-gradient-to-l from-transparent to-white rounded-md"
             ></div>
             <img
-              src="../../../assets/programmer.jpg"
+              src="../../assets/programmer.jpg"
               alt="Image"
               class="w-full h-32 md:h-full object-cover rounded-md"
             />
@@ -84,7 +97,7 @@
         <div class="bg-orange-500 p-3 rounded-t-lg">
           <div class="block sm:hidden w-full mb-3 text-center">
             <img
-              src="../../../assets/delivery.jpg"
+              src="../../assets/delivery.jpg"
               alt="Image"
               class="w-3/4 h-auto rounded-md mx-auto"
             />
@@ -115,16 +128,18 @@
                 game-changing approach that enables carriers and drivers to
                 maximize their earning potential while offering clients
                 unparalleled flexibility and choice.
-                <router-link
-                  v-if="showMoreCard2 || isLargeScreen"
-                  to="/carrier-tutorial"
-                >
-                  <button
-                    class="continue-btn btn-primary absolute bottom-3 left-3 px-3 py-1 bg-orange-500 text-white hover:bg-orange-700 rounded"
+                <div v-if="showMoreCard2 || isLargeScreen">
+                  <Link
+                    :href="route('dashboard')"
+                    class="absolute bottom-3 left-3"
                   >
-                    Continue
-                  </button>
-                </router-link>
+                    <img
+                      src="../../assets/google-logo.png"
+                      alt="Google"
+                      class="w-10 h-10"
+                    />
+                  </Link>
+                </div>
               </div>
             </transition>
           </div>
@@ -133,7 +148,7 @@
               class="absolute inset-0 bg-gradient-to-l from-transparent to-white rounded-md"
             ></div>
             <img
-              src="../../../assets/delivery.jpg"
+              src="../../assets/delivery.jpg"
               alt="Image"
               class="w-full h-32 md:h-full object-cover rounded-md"
             />
@@ -143,12 +158,11 @@
     </div>
   </GuestLayout>
 </template>
-
-
+  
   <script setup>
 import { ref, onMounted } from "vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import { Head } from "@inertiajs/inertia-vue3";
+import { Head, Link } from "@inertiajs/inertia-vue3";
 
 const landingPage = ref(null);
 const items = ref([]);
@@ -182,12 +196,32 @@ const checkScreenSize = () => {
   isLargeScreen.value = window.innerWidth >= 640;
 };
 
+// Define the fetchItems function to fetch data
+const fetchItems = async () => {
+  try {
+    const response = await fetch("/items"); // Adjust URL based on your route
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      items.value = await response.json();
+    } else {
+      throw new Error("Response is not JSON");
+    }
+  } catch (error) {
+    console.error("Error fetching items:", error);
+  }
+};
+
 // On mounted hook to initialize actions
 onMounted(async () => {
   // Initial animation after DOM is settled
-  setTimeout(() => {
-    landingPage.value.classList.add("animate-drop-down");
-  }, 100);
+  if (landingPage.value) {
+    setTimeout(() => {
+      landingPage.value.classList.add("animate-drop-down");
+    }, 100);
+  }
 
   // Fetch items from API
   await fetchItems();
@@ -197,8 +231,8 @@ onMounted(async () => {
   window.addEventListener("resize", checkScreenSize);
 });
 </script>
-
-<style scoped>
+  
+  <style scoped>
 body,
 html {
   margin: 0;
@@ -286,3 +320,4 @@ html {
   margin: 0; /* Remove any unintended margin */
 }
 </style>
+  
