@@ -25,6 +25,13 @@ Route::get('/vehicles', [ItemController::class, 'getVehicles'])->name('vehicles.
 Route::post('/submit-bid', [ItemController::class, 'submitBid'])->name('submit.bid');
 Route::post('/filter-by-vehicle', [ItemController::class, 'filterByVehicleType'])->name('filter.by.vehicle');
 
+//Bid Controller Routes
+Route::get('/my-bids', [BidController::class, 'myBids'])->name('bids.myBids');
+Route::post('/bids/{id}', [BidController::class, 'update'])->name('bids.update');
+Route::delete('/bids/{id}', [BidController::class, 'destroy'])->name('bids.destroy');
+Route::get('/lowest-bids', [BidController::class, 'lowestBids'])->name('bids.lowestBids');
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
