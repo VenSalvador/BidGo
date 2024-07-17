@@ -13,7 +13,7 @@
           </div>
           <div class="flex flex-col items-end">
             <div class="text-sm"><b></b> {{ formattedPickupTime }}</div>
-            <button @click="openBidModal" class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full">
+            <button @click.stop="openBidModal" class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-full">
               BID
             </button>
           </div>
