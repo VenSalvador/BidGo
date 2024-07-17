@@ -10,9 +10,7 @@
 
       <div class="dashboard">
         <!-- Replacing v-window with Tailwind CSS tabs -->
-        <div class="tabs flex justify-center space-x-4">
-          <button :class="{ 'bg-gray-300': step === 1 }" class="tab-button" @click="step = 1">Step 1</button>
-        </div>
+
         <div v-show="step === 1">
           <div class="ongoing-text flex items-center space-x-2 text-sm font-semibold text-left mb-4">
             <span>Choose What to Browse</span>
@@ -32,7 +30,7 @@
           </div>
 
           <transition-group name="fade" tag="div" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            <!--<ItemCard
+            <ItemCard
               v-for="item in items"
               :key="item.id"
               :item-name="item.item_name"
@@ -47,7 +45,7 @@
               :vehicle_type="item.vehicle_type"
               @click="showModal(item)"
               @openBidModal="openBidModal"
-            />-->
+            />
           </transition-group>
 
           <!-- Dialogs and Modals -->
@@ -95,7 +93,7 @@
                 <div class="space-y-4">
                   <div class="flex justify-between border-b pb-2">
                     <label class="font-bold">Order from:</label>
-                    <span>{{ selectedItem.client }}</span>
+                    <span>{{ selectedItem.item_client }}</span>
                   </div>
                   <div class="flex justify-between border-b pb-2">
                     <label class="font-bold">Ship Out Date:</label>
@@ -107,15 +105,15 @@
                   </div>
                   <div class="flex justify-between border-b pb-2">
                     <label class="font-bold">Destination: </label>
-                    <span>{{ selectedItem.destination }}</span>
+                    <span>{{ selectedItem.item_destination }}</span>
                   </div>
                   <div class="flex justify-between border-b pb-2">
                     <label class="font-bold">Current Bids:</label>
-                    <span>{{ selectedItem.currentBids }}</span>
+                    <span>{{ selectedItem.item_current_bids }}</span>
                   </div>
                   <div class="flex justify-between border-b pb-2">
                     <label class="font-bold">Quote/Pricing:</label>
-                    <span>{{ selectedItem.quote }}</span>
+                    <span>{{ selectedItem.item_quote }}</span>
                   </div>
                   <button @click="showItemInfo = !showItemInfo" class="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg">
                     Show Item Information
@@ -124,19 +122,19 @@
                     <div v-if="showItemInfo" class="border border-gray-300 rounded-lg p-4 mt-4 bg-white space-y-2">
                       <div class="flex justify-between border-b pb-2">
                         <label class="font-bold">Description:</label>
-                        <span>{{ selectedItem.itemName }}</span>
+                        <span>{{ selectedItem.item_name }}</span>
                       </div>
                       <div class="flex justify-between border-b pb-2">
                         <label class="font-bold">Length:</label>
-                        <span>{{ selectedItem.length }} cm</span>
+                        <span>{{ selectedItem.item_length }} cm</span>
                       </div>
                       <div class="flex justify-between border-b pb-2">
                         <label class="font-bold">Width:</label>
-                        <span>{{ selectedItem.width }} cm</span>
+                        <span>{{ selectedItem.item_width }} cm</span>
                       </div>
                       <div class="flex justify-between border-b pb-2">
                         <label class="font-bold">Height:</label>
-                        <span>{{ selectedItem.height }} cm</span>
+                        <span>{{ selectedItem.item_height }} cm</span>
                       </div>
                     </div>
                   </transition>
@@ -156,13 +154,13 @@ import { ref, onMounted, computed } from 'vue';
 import { usePage, Head } from '@inertiajs/inertia-vue3';
 import axios from 'axios';
 import moment from 'moment';
-//import ItemCard from '../../../Components/ItemCard.vue';
+import ItemCard from '../../Components/ItemCard.vue';
 import { useWindowScroll } from '@vueuse/core';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
 const { props } = usePage();
 const step = ref(1);
-const items = computed(() => props.value.items);
+const items = ref([]);
 const modalVisible = ref(false);
 const bidModalVisible = ref(false);
 const confirmDialog = ref(false);
@@ -190,6 +188,17 @@ const selectedItem = ref({
     currentBids: '',
     formattedPickupTime: ''
 });
+
+const fetchItems = async () => {
+  try {
+    const response = await axios.get('/items');
+    items.value = response.data;
+    alert('Fetched items:'+ items.value.id);
+  } catch (error) {
+    console.error('Error fetching items:', error);
+  }
+};
+
 const bidRules = [
     v => !!v || 'Bid amount is required',
     v => (v && v > 0) || 'Bid amount must be greater than zero'
@@ -212,6 +221,10 @@ const showModal = (item) => {
 const showBidModal = () => {
     bidModalVisible.value = true;
 };
+
+const openBidModal = () => {
+      bidModalVisible.value = true; // Set bidModalVisible to true to show the modal
+    };
 
 const cancelBid = () => {
     bidModalVisible.value = false;
@@ -246,6 +259,10 @@ const showHelpModal = (type) => {
     }
     helpModalVisible.value = true;
 };
+
+onMounted(() => {
+  fetchItems();
+});
 </script>
 
 <style scoped>
