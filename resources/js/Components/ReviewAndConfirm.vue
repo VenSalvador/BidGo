@@ -26,48 +26,43 @@
     </div>
   </template>
 
-  <script>
+  <script setup>
   import axios from 'axios';
+  import { defineProps, ref } from 'vue';
 
-  export default {
-    props: {
-      selectedItem: {
-        type: Object,
-        required: true,
-      },
-      bidAmount: {
+  const props = defineProps({
+    selectedItem: {
+      type: Object,
+      required: true,
+    },
+    bidAmount: {
       type: Number,
       required: true
     },
-    },
-    methods: {
-      confirm() {
-        const bidData = {
-          item_id: this.selectedItem.id,
-          bid_amount: this.bidAmount, // or another field if you have a specific bid amount
-        };
+  });
 
-        axios.post('/submit-bid', bidData)
-          .then(response => {
-            console.log('Bid submitted successfully:', response.data);
-            alert(`Bid Successfully Submitted!`);
+  const confirm = async () => {
+    const bidData = {
+      item_id: props.selectedItem.id,
+      bid_amount: props.bidAmount,
+    };
 
-            // Handle success (e.g., show a success message, navigate to another page, etc.)
-          })
-          .catch(error => {
-            if (error.response) {
-              console.error('Error submitting bid:', error.response.data);
-              alert(`Error submitting bid: ${JSON.stringify(error.response.data)}`);
-            } else {
-              console.error('Error submitting bid:', error.message);
-              alert(`Error submitting bid: ${error.message}`);
-            }
-          });
-      },
-    },
+    try {
+      const response = await axios.post('/submit-bid', bidData);
+      console.log('Bid submitted successfully:', response.data);
+      alert('Bid Successfully Submitted!');
+      // Handle success (e.g., show a success message, navigate to another page, etc.)
+    } catch (error) {
+      if (error.response) {
+        console.error('Error submitting bid:', error.response.data);
+        alert(`Error submitting bid: ${JSON.stringify(error.response.data)}`);
+      } else {
+        console.error('Error submitting bid:', error.message);
+        alert(`Error submitting bid: ${error.message}`);
+      }
+    }
   };
   </script>
-
 
   <style scoped>
   .custom-btn {

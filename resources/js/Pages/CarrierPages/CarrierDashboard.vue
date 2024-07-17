@@ -9,7 +9,6 @@
       </div>
 
       <div class="dashboard">
-        <!-- Replacing v-window with Tailwind CSS tabs -->
 
         <div v-show="step === 1">
           <div class="ongoing-text flex items-center space-x-2 text-sm font-semibold text-left mb-4">
@@ -144,6 +143,10 @@
             </div>
           </transition>
         </div>
+        <div v-show="step === 2">
+            <ReviewAndConfirm :selected-item="selectedItem" :bid-amount="bidAmount" />
+          </div>
+
       </div>
     </div>
   </AuthenticatedLayout>
@@ -155,6 +158,7 @@ import { usePage, Head } from '@inertiajs/inertia-vue3';
 import axios from 'axios';
 import moment from 'moment';
 import ItemCard from '../../Components/ItemCard.vue';
+//import ReviewAndConfirm from '.../Components/ReviewAndConfirm.vue';  // Correct casing
 import { useWindowScroll } from '@vueuse/core';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
