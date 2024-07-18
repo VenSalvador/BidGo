@@ -4,13 +4,13 @@
       <div class="flex flex-col items-center mb-6">
         <div class="mb-6 w-full">
           <h3 class="text-xl font-medium mb-4">Selected Item:</h3>
-          <p><b>Item Name: </b>{{ selectedItem.itemName }}</p>
-          <p><b>Client: </b>{{ selectedItem.client }}</p>
-          <p><b>Pick-up time: </b>{{ selectedItem.pickupTime }}</p>
-          <p><b>Destination: </b>{{ selectedItem.destination }}</p>
-          <p><b>Current Bids: </b>{{ selectedItem.currentBids }}</p>
+          <p><b>Item Name: </b>{{ selectedItem.item_name }}</p>
+          <p><b>Client: </b>{{ selectedItem.item_client }}</p>
+          <p><b>Pick-up time: </b>{{ formattedPickupTime }}</p>
+          <p><b>Destination: </b>{{ selectedItem.item_destination }}</p>
+          <p><b>Current Bids: </b>{{ selectedItem.item_current_bids }}</p>
           <p><strong>Vehicle:</strong> {{ selectedItem.vehicle_type }}</p>
-          <p><b>Delivery Quote/Price: </b>{{ selectedItem.quote }}</p>
+          <p><b>Delivery Quote/Price: </b>{{ selectedItem.item_quote }}</p>
           <p><strong>Bid Amount:</strong> {{ bidAmount }}</p>
         </div>
       </div>
@@ -29,6 +29,7 @@
   <script setup>
   import axios from 'axios';
   import { defineProps, ref } from 'vue';
+  import moment from 'moment';
 
   const props = defineProps({
     selectedItem: {
@@ -40,6 +41,8 @@
       required: true
     },
   });
+
+  const formattedPickupTime = moment(props.selectedItem.item_pickup_time).format('MMMM D, YYYY');
 
   const confirm = async () => {
     const bidData = {
