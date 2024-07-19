@@ -3,11 +3,13 @@
         Options -MultiViews -Indexes
     </IfModule>
 
-    RewriteEngine On
+    # Redirect all HTTP requests to HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-    # Handle Authorization Header
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+# Ensure all requests are secure
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
