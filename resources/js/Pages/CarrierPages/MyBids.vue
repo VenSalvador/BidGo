@@ -1,4 +1,5 @@
 <template>
+    <AuthenticatedLayout>
     <div class="MyBids-Page pb-16" ref="MyBidsPage">
         <div class="container mx-auto px-3 py-5">
             <h1 class="text-2xl font-bold mb-5">My Bids</h1>
@@ -165,12 +166,14 @@
             </div>
         </transition>
     </div>
+</AuthenticatedLayout>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import navbarAlternate from '@/Components/NavbarAlternate.vue';
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import moment from 'moment';
 
 const bids = ref([]);

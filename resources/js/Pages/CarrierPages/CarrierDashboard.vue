@@ -242,26 +242,17 @@
   };
 
   const confirmBid = async () => {
-    if (
-      bidAmount.value < 0 ||
-      bidAmount.value == 0 ||
-      bidAmount.value > selectedItem.value.quote
-    ) {
-      alert('Invalid bid amount. Please check the values.');
-      return;
-    }
-
     try {
-      bidPlaced.value = true;
-      bidModalVisible.value = false;
-      selectedItem.value.currentBids++;
+        bidPlaced.value = true;
+        bidModalVisible.value = false;
+        selectedItem.value.currentBids++;
 
-      // Navigate to the ReviewAndConfirm component
-      step.value = 2;
+        // Navigate to the ReviewAndConfirm component
+        step.value = 2;
     } catch (error) {
-      console.error('Error submitting bid:', error);
+        console.error('Error submitting bid:', error);
     }
-  };
+};
 
   const cancel = () => {
     modalVisible.value = false;

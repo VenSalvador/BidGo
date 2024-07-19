@@ -29,10 +29,12 @@ class ItemController extends Controller
             'bid_amount' => 'required|numeric|min:0',
         ]);
 
+        $user = auth()->user();
+
         $bid = Bid::create([
             'item_id' => $validatedData['item_id'],
             'bid_amount' => $validatedData['bid_amount'],
-            'user_id' => 1, // Assign user_id as 1
+            'user_id' => $user->id, // Use authenticated user's ID
         ]);
 
         return response()->json(['message' => 'Bid submitted successfully!']);
