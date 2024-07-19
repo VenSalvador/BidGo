@@ -10,10 +10,8 @@ class BidController extends Controller
 {
     public function myBids(Request $request)
     {
-        // Assuming you have authenticated user
-        $userId = $request->user()->id; // Use authenticated user's ID
+        $userId = $request->user()->id;
 
-        // Fetch all bids made by the user, including related items
         $bids = Bid::where('user_id', $userId)->with('item')->get();
 
         return response()->json($bids);
@@ -26,7 +24,6 @@ class BidController extends Controller
             return response()->json(['message' => 'Bid not found'], 404);
         }
 
-        // Validate and update the bid amount
         $request->validate([
             'bid_amount' => 'required|numeric|min:0',
         ]);
@@ -34,7 +31,7 @@ class BidController extends Controller
         $bid->bid_amount = $request->input('bid_amount');
         $bid->save();
 
-        return response()->json(['message' => 'Bid updated successfully']);
+        return response()->json($bid); // Return the updated bid
     }
 
     public function destroy($id)

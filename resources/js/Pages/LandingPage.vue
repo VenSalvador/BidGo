@@ -19,7 +19,7 @@
           class="relative bg-white rounded-lg overflow-hidden w-full p-3 mx-auto lg:max-w-screen-lg shadow-lg cursor-pointer hover:transform hover:scale-105 transition-transform duration-300 ease-in-out"
           @click="toggleContentCard1"
         >
-          <div class="bg-orange-500 p-3 rounded-t-lg">
+        <div class="bg-orange-500 p-3 rounded-t-lg">
             <div class="block sm:hidden w-full mb-3 text-center">
               <img
                 src="../../assets/programmer.jpg"
@@ -27,31 +27,22 @@
                 class="w-3/4 h-auto rounded-md mx-auto"
               />
             </div>
-            <h2 class="text-lg md:text-xl mb-2 text-white">About Us</h2>
-            <h3 class="text-md md:text-lg font-bold text-white">Shiftminds</h3>
+            <h2 class="text-lg md:text-xl mb-2 text-white">Want to move something?</h2>
+            <h3 class="text-md md:text-lg font-bold text-white">Use BidGo!</h3>
           </div>
           <section class="relative flex flex-wrap p-3 pb-12 rounded-b-lg">
             <!-- Add padding-bottom -->
             <div v-if="!showCarousel" class="w-full sm:w-7/12 md:w-1/2 sm:pr-3">
               <hr class="border-t-2 border-gray-400 my-3" />
               <p class="text-sm md:text-base text-black mb-3">
-                Welcome to ShiftMinds, where innovation meets efficiency to
-                revolutionize the way businesses operate. At ShiftMinds, we're on
-                a mission to empower organizations with cutting-edge technology
-                solutions tailored to streamline workflows and elevate
-                productivity...
+                BidGo is your ultimate solution for moving items. Our platform connects users with drivers who bid for their cargo, ensuring you find the perfect carrier at the best price. Whether you're moving household items, office supplies, or anything in between, BidGo makes it easy and cost-effective.
               </p>
               <transition name="fade">
                 <div
                   v-if="showMoreCard1 || isLargeScreen"
                   class="text-sm md:text-base text-black mb-3"
                 >
-                  At the core of our ethos lies a commitment to harnessing the
-                  power of technology to simplify complexities and drive tangible
-                  results. Whether you're a budding startup or an established
-                  enterprise, our suite of services is designed to cater to your
-                  unique needs, paving the way for seamless operations and
-                  unparalleled growth.
+                  Our mission is to simplify the logistics of moving items, offering you a seamless experience from start to finish. With BidGo, you can browse bids from multiple drivers and choose the one that best fits your needs and budget.
                   <button
                     v-if="!showCarousel"
                     class="continue-btn btn-primary absolute bottom-3 left-3 px-3 py-1 bg-orange-500 text-white hover:bg-orange-700 rounded"
@@ -88,7 +79,7 @@
               </div>
             </div>
           </div>
-        </div>
+          </div>
 
         <div
           class="relative bg-white rounded-lg overflow-hidden w-full p-3 mx-auto lg:max-w-screen-lg shadow-lg cursor-pointer hover:transform hover:scale-105 transition-transform duration-300 ease-in-out mt-4"
@@ -103,10 +94,10 @@
               />
             </div>
             <h2 class="text-lg md:text-xl mb-2 text-white font-bold">
-              Introducing: CargoBid
+              Want to earn extra income while driving?
             </h2>
             <h3 class="text-md md:text-lg text-white">
-              Your Gateway to Seamless Cargo Bidding and Beyond
+                Be a BidGo Carrier!
             </h3>
           </div>
           <section class="relative flex flex-wrap p-3 pb-12 rounded-b-lg">
@@ -129,16 +120,15 @@
                   maximize their earning potential while offering clients
                   unparalleled flexibility and choice.
                   <div v-if="showMoreCard2 || isLargeScreen">
-                    <Link
-                      :href="route('dashboard')"
-                      class="absolute bottom-3 left-3"
-                    >
-                      <img
-                        src="../../assets/google-logo.png"
-                        alt="Google"
-                        class="w-10 h-10"
-                      />
-                    </Link>
+                    <div>
+                    <button
+                    v-if="!showCarousel"
+                    class="continue-btn btn-primary absolute bottom-3 left-3 px-3 py-1 bg-orange-500 text-white hover:bg-orange-700 rounded"
+                    @click.stop="showCarousel = true"
+                  >
+                    Continue
+                  </button>
+                </div>
                   </div>
                 </div>
               </transition>

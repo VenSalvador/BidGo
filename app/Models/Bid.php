@@ -13,8 +13,8 @@ class Bid extends Model
         'item_id',
         'vehicle_id',
         'bid_amount',
+        'user_id',
     ];
-
     public function item()
     {
         return $this->belongsTo(Item::class);

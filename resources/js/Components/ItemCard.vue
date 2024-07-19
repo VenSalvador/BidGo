@@ -2,7 +2,7 @@
     <div
       class="item-card relative flex flex-col py-1 px-4 border border-gray-300 rounded-lg overflow-hidden transition-transform duration-200 ease-in-out"
       :class="{ 'hover:transform hover:scale-105': !isClicked }"
-      @click="$emit('click', itemName)"
+      @click="handleCardClick"
     >
       <img src="../../assets/Package-alt.png" alt="Image" class="w-full h-48 object-cover">
       <div class="absolute inset-x-0 bottom-0 bg-gray-800 bg-opacity-75 p-4 text-white">
@@ -21,7 +21,6 @@
       </div>
     </div>
   </template>
-
 
   <script>
   import moment from 'moment';
@@ -82,10 +81,15 @@
         emit('openBidModal');
       };
 
-      const formattedPickupTime = moment(props.pickupTime).fromNow();
+      const handleCardClick = () => {
+        emit('click', props.id);
+      };
+
+      const formattedPickupTime = moment(props.pickupTime).format('MMMM D, YYYY');
 
       return {
         openBidModal,
+        handleCardClick,
         formattedPickupTime
       };
     }

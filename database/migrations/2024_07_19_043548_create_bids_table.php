@@ -16,6 +16,7 @@ class CreateBidsTable extends Migration
         Schema::create('bids', function (Blueprint $table) {
             $table->id();
             $table->foreignId('item_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('bid_amount', 10, 2);
             $table->timestamps();
         });
@@ -31,4 +32,3 @@ class CreateBidsTable extends Migration
         Schema::dropIfExists('bids');
     }
 }
-
