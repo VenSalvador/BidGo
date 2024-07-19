@@ -162,15 +162,7 @@
     </AuthenticatedLayout>
   </template>
 
-  <script setup>
-  import { ref, onMounted, computed } from 'vue';
-  import { usePage, Head } from '@inertiajs/inertia-vue3';
-  import axios from 'axios';
-  import moment from 'moment';
-  import ItemCard from '../../Components/ItemCard.vue';
-  import ReviewAndConfirm from '../../Components/ReviewAndConfirm.vue'; // Correct casing
-  import { useWindowScroll } from '@vueuse/core';
-  import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { usePage, Head } from '@inertiajs/inertia-vue3';

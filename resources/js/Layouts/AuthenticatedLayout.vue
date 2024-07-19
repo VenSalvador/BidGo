@@ -7,12 +7,17 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 import NavBar from '@/Components/NavBar.vue';
+import { Head } from '@inertiajs/inertia-vue3';
 
 const showingNavigationDropdown = ref(false);
 </script>
 
 <template>
     <div>
+        <Head>
+      <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+      <!-- Other meta tags -->
+    </Head>
         <div class="min-h-screen" :style="{ backgroundColor: '#EEF4ED' }">
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->

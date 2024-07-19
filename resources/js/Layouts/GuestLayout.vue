@@ -1,9 +1,13 @@
 <script setup>
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, Head } from '@inertiajs/vue3';
 </script>
 
 <template>
+    <Head>
+      <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+      <!-- Other meta tags -->
+    </Head>
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0" :style="{ backgroundColor: '#EEF4ED' }">
         <div>
             <Link href="/">
