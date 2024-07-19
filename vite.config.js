@@ -17,6 +17,16 @@ export default defineConfig({
             },
         }),
     ],
+    server: {
+        proxy: {
+          '/api': {
+            target: 'https://your-domain.com', // Use a domain name here
+            changeOrigin: true,
+            secure: false, // Set to true if the target is HTTPS
+            rewrite: (path) => path.replace(/^\/api/, ''),
+          },
+        },
+    },
     resolve: {
         alias: {
             '@': '/resources/js',
