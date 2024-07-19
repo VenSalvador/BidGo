@@ -116,6 +116,33 @@
                     </div>
                 </div>
             </transition>
+
+              <!-- Update Bid Modal -->
+              <transition name="fade">
+                <div v-if="updateBidModalVisible" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75">
+                    <div class="bg-white p-6 rounded-lg w-full max-w-sm">
+                        <div class="text-xl font-semibold mb-2">Update Bid</div>
+                        <form class="space-y-4">
+                            <input
+                                type="number"
+                                v-model.number="updateBidAmount"
+                                placeholder="Bid Amount"
+                                class="w-full p-2 border border-gray-300 rounded-lg"
+                                required
+                            />
+                        </form>
+                        <div class="flex justify-end space-x-2 mt-4">
+                            <button class="bg-green-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-green-700" @click="confirmUpdateBid">
+                                Update Bid
+                            </button>
+                            <button class="bg-red-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-red-700" @click="cancelUpdateBid">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </transition>
+
         </div>
     </AuthenticatedLayout>
 </template>
@@ -130,6 +157,9 @@ export default {
             bids: [],
             modalVisible: false,
             showItemInfo: false,
+            updateBidModalVisible: false, // Initialize this property
+            updateBidAmount: null, // Initialize this property
+            selectedBidId: null, // Initialize this property
             selectedItem: {
                 client: '',
                 formattedPickupTime: '',
@@ -162,6 +192,25 @@ export default {
                 console.error('Error fetching bids:', error);
             }
         },
+
+        async confirmUpdateBid() {
+    try {
+        console.log('Selected Bid ID:', this.selectedBidId);
+        console.log('Update Bid Amount:', this.updateBidAmount);
+
+        const response = await axios.put(`/bids/${this.selectedBidId}`, {
+            bid_amount: this.updateBidAmount
+        });
+
+        console.log('Update Response:', response.data);
+
+        this.updateBidModalVisible = false;
+        this.fetchBids();
+    } catch (error) {
+        console.error('Error updating bid:', error.response ? error.response.data : error.message);
+    }
+},
+
         showModal(bid) {
             this.selectedItem = {
                 client: bid.item.item_client,
@@ -180,7 +229,9 @@ export default {
             this.showItemInfo = false;
         },
         openBidModal(bid) {
-            console.log('Open Bid Modal:', bid);
+            this.updateBidModalVisible = true; // Use 'this' to access data properties
+            this.updateBidAmount = bid.bid_amount; // Use 'this' to access data properties
+            this.selectedBidId = bid.id; // Use 'this' to access data properties
         },
         openDeleteModal(bidId) {
             console.log('Open Delete Modal:', bidId);
@@ -191,6 +242,9 @@ export default {
         },
         cancel() {
             this.modalVisible = false;
+        },
+        cancelUpdateBid() {
+            this.updateBidModalVisible = false; // Use 'this' to access data properties
         }
     },
     mounted() {
