@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CarrierController; // Ensure you have this controller
+use App\Http\Controllers\RegisteredUserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -16,7 +17,11 @@ Route::get('/', function () {
     ]);
 });
 
-    Route::get('/carrier-dashboard', [CarrierController::class, 'showDashboard'])->name('CarrierDashboard');
+Route::get('/provinces', [RegisteredUserController::class, 'getProvinces'])->name('provinces');
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+
+Route::post('/register', [RegisteredUserController::class, 'store']);
+Route::get('/carrier-dashboard', [CarrierController::class, 'showDashboard'])->name('CarrierDashboard');
 
 // Item Controller Routes
 Route::get('/items', [ItemController::class, 'index'])->name('items.index');

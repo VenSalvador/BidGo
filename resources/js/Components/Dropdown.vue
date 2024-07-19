@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 
 const props = defineProps({
     align: {
@@ -14,7 +14,17 @@ const props = defineProps({
         type: String,
         default: 'py-1 bg-white',
     },
+    options: {
+        type: Array,
+        default: () => [],
+    },
+    modelValue: {
+        type: Object,
+        default: () => null,
+    }
 });
+
+const emit = defineEmits(['update:modelValue']);
 
 const closeOnEscape = (e) => {
     if (open.value && e.key === 'Escape') {
@@ -42,6 +52,17 @@ const alignmentClasses = computed(() => {
 });
 
 const open = ref(false);
+
+const selectOption = (option) => {
+    emit('update:modelValue', option);
+    open.value = false;
+};
+
+const selectedOption = ref(props.modelValue);
+
+watch(() => props.modelValue, (newValue) => {
+    selectedOption.value = newValue;
+}, { immediate: true });
 </script>
 
 <template>
@@ -65,11 +86,18 @@ const open = ref(false);
                 v-show="open"
                 class="absolute z-50 mt-2 rounded-md shadow-lg"
                 :class="[widthClass, alignmentClasses]"
-                style="display: none"
-                @click="open = false"
             >
                 <div class="rounded-md ring-1 ring-black ring-opacity-5" :class="contentClasses">
-                    <slot name="content" />
+                    <ul>
+                        <li
+                            v-for="option in options"
+                            :key="option.id"
+                            @click="selectOption(option)"
+                            class="cursor-pointer hover:bg-gray-100"
+                        >
+                            {{ option.name }}
+                        </li>
+                    </ul>
                 </div>
             </div>
         </Transition>
