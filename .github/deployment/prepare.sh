@@ -7,39 +7,39 @@ ssh_known_hosts=$6
 php_executable=$7
 
 if [[ -z "$ssh_user" ]]; then
-    echo -e "\e[101mError\e[0m\e[91m The variable \"\$ssh_user\" is not set.\e[0m"
+    echo -e "::error::The variable \"\$ssh_user\" is not set."
 
     exit 1
 fi
 
 if [[ -z "$ssh_host" ]]; then
-    echo -e "\e[101mError\e[0m\e[91m The variable \"\$ssh_host\" is not set.\e[0m"
+    echo -e "::error::The variable \"\$ssh_host\" is not set."
 
     exit 1
 fi
 
 if [[ -z "$ssh_port" ]]; then
-    echo -e "\e[101mError\e[0m\e[91m The variable \"\$ssh_port\" is not set.\e[0m"
+    echo -e "::error::The variable \"\$ssh_port\" is not set."
 
     exit 1
 fi
 
 if [[ -z "$private_ssh_key" ]]; then
-    echo -e "\e[101mError\e[0m\e[91m The variable \"\$private_ssh_key\" is not set. Add this value as a secret to your GitLab repository.\e[0m"
+    echo -e "::error::The variable \"\$private_ssh_key\" is not set. Add this value as a secret to your GitHub repository."
 
     exit 1
 elif [[ "$private_ssh_key" =~ ^ssh-rsa[[:blank:]] ]] || [[ "$private_ssh_key" =~ [[:blank:]]PUBLIC[[:blank:]]KEY ]]; then
-    echo -e "\e[101mError\e[0m\e[91m The variable \"\$private_ssh_key\" looks like a public key. It should be a private key.\e[0m"
+    echo -e "::error::The variable \"\$private_ssh_key\" looks like a public key. It should be a private key."
 
     exit 1
 fi
 
 if [[ -z "$base_directory" ]]; then
-    echo -e "\e[101mError\e[0m\e[91m The variable \"\$base_directory\" is not set.\e[0m"
+    echo -e "::error::The variable \"\$base_directory\" is not set."
 
     exit 1
 elif [[ "$base_directory" =~ /current/?$ ]]; then
-    echo -e "\e[101mError\e[0m\e[91m The variable \"\$base_directory\" points to the \"current\" directory. It should point one level higher to the base directory.\e[0m"
+    echo -e "::error::The variable \"\$base_directory\" points to the \"current\" directory. It should point one level higher to the base directory."
 
     exit 1
 fi
@@ -65,13 +65,13 @@ elif [[ -n "$ssh_known_hosts" ]]; then
 
     chmod 644 ~/.ssh/known_hosts
 else
-    echo -e "\e[43mWarning\e[0m\e[93m The variable \"\$ssh_known_hosts\" is not set. We will connect to the remote server without verifying the host.\e[0m"
+    echo -e "::warning::The variable \"\$ssh_known_hosts\" is not set. We will connect to the remote server without verifying the host."
 
     # Disable host key verification.
-    echo "StrictHostKeyChecking no" | tee -a /etc/ssh/ssh_config >/dev/null
+    echo "StrictHostKeyChecking no" | sudo tee -a /etc/ssh/ssh_config >/dev/null
 
     # Prevent related warnings.
-    echo "LogLevel ERROR" | tee -a /etc/ssh/ssh_config >/dev/null
+    echo "LogLevel ERROR" | sudo tee -a /etc/ssh/ssh_config >/dev/null
 fi
 
 # Start the SSH agent.
@@ -92,4 +92,4 @@ scp -P "$ssh_port" "artifacts.tar.gz" "$ssh_user@[$ssh_host]:$remote_artifacts_p
 
 echo "Running the deployment script on the remote server."
 
-ssh "$ssh_user@$ssh_host" -p "$ssh_port" "tar -xf $remote_artifacts_path .gitlab/deployment/deploy.sh -O | bash -seo pipefail -- \"$remote_artifacts_path\" \"$base_directory\" \"$php_executable\""
+ssh "$ssh_user@$ssh_host" -p "$ssh_port" "tar -xf $remote_artifacts_path .github/deployment/deploy.sh -O | bash -seo pipefail -- \"$remote_artifacts_path\" \"$base_directory\" \"$php_executable\""

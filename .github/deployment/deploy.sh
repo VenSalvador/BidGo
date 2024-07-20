@@ -40,7 +40,7 @@ run_hook () {
     hook_entry_directory=$(pwd)
 
     # Run the hook, and pass down every argument except the first one (the first one is the name of the hook).
-    tar -xf "$artifacts_path" ".gitlab/deployment/hooks/$hook_file_name" -O | bash -se -- "$php_executable" "${hook_parameters[@]}"
+    tar -xf "$artifacts_path" ".github/deployment/hooks/$hook_file_name" -O | bash -se -- "$php_executable" "${hook_parameters[@]}"
 
     # Make sure the hook didn't change the directory.
     cd "$hook_entry_directory" || exit 1
@@ -62,7 +62,7 @@ on_exit() {
     fi
 
     if [[ "$release_activated" == true ]] && [[ "$script_status_code" -ne 0 ]]; then
-        echo "\e[43mWarning\e[0m\e[93m The new release has been activated!\e[0m"
+        echo "::warning::The new release has been activated!"
     fi
 
     if [[ "$has_created_lock_directory" == true ]]; then
@@ -84,20 +84,20 @@ mkdir -p "$releases_directory"
 # inside "$releases_directory" does not have a numeric name then we are probably in the wrong place.
 for release_directory_path in "$releases_directory/"*/ ; do
     if [[ -e "$release_directory_path" ]] && ! [[ $release_directory_path =~ /[0-9]+/$ ]] ; then
-       echo -e "\e[101mError\e[0m\e[91m The name of existing release directory \"$release_directory_path\" is not fully numeric, this should never happen.\e[0m"
+       echo -e "::error::The name of existing release directory \"$release_directory_path\" is not fully numeric, this should never happen."
 
        exit 1
     fi
 done
 
 if [[ -d "$lock_directory_path" ]]; then
-    echo -e "\e[101mError\e[0m\e[91m The directory \"$lock_directory_path\" exists, this means another deployment is currently running.\e[0m"
+    echo -e "::error::The directory \"$lock_directory_path\" exists, this means another deployment is currently running."
 
     exit 1
 fi
 
 if [[ ! -x "$(command -v "$php_executable")" ]]; then
-    echo -e "\e[101mError\e[0m\e[91m The PHP executable is set to \"$php_executable\", but that file either does not exist or is not executable.\e[0m"
+    echo -e "::error::The PHP executable is set to \"$php_executable\", but that file either does not exist or is not executable."
 
     exit 1
 elif [[ "$php_executable" != "php" ]]; then
@@ -134,7 +134,7 @@ ln -nsfr "$real_storage_directory_path" "$new_release_directory/storage"
 if [[ ! -s "$real_env_file_path" ]]; then
     touch "$real_env_file_path"
 
-    echo -e "\e[101mError\e[0m\e[91m Your \"$real_env_file_path\" file is empty. Run the deployment again after you've filled it in.\e[0m"
+    echo -e "::error::Your \"$real_env_file_path\" file is empty. Run the deployment again after you've filled it in."
 
     exit 1
 fi
@@ -150,7 +150,7 @@ cd "$new_release_directory" || exit 1
 tar --extract --file="$artifacts_path"
 
 if ! [[ $("$php_executable" artisan tinker --help) =~ "--execute" ]]; then
-    echo -e "\e[101mError\e[0m\e[91m Laravel Tinker is not installed or you are using an outdated version. Laravel Tinker version ^2.0 is required.\e[0m"
+    echo -e "::error::Laravel Tinker is not installed or you are using an outdated version. Laravel Tinker version ^2.0 is required."
 
     exit 1
 fi
