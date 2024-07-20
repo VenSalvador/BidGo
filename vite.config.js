@@ -31,7 +31,7 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': '/resources/js',
-            ziggy: path.resolve(__dirname, 'vendor/tightenco/ziggy/dist/js/route.js'),
+            ziggy: path.resolve(__dirname, 'vendor/tightenco/ziggy/dist/js/route.umd.js'),
         },
     },
     build: {
