@@ -2,9 +2,11 @@ import './bootstrap';
 import '../css/app.css';
 
 import { createApp, h } from 'vue';
-import { createInertiaApp } from '@inertiajs/vue3';
+import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { ZiggyVue } from '../../vendor/tightenco/ziggy';
+import { ZiggyVue } from 'ziggy-vue'; // Import ZiggyVue from the package
+import { Ziggy } from './ziggy-routes'; // Path to your generated Ziggy routes file
+import { route } from 'ziggy-js';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -12,14 +14,21 @@ createInertiaApp({
     title: (title) => `${title}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     setup({ el, App, props, plugin }) {
-        return createApp({ render: () => h(App, props) })
-            .use(plugin)
-            .use(ZiggyVue)
-            .mount(el);
+        const app = createApp({ render: () => h(App, props) });
+
+        // Use ZiggyVue plugin
+        app.use(ZiggyVue, { Ziggy });
+
+        // Add the route method globally
+        app.mixin({
+            methods: {
+                route: (name, params, absolute) => route(name, params, absolute, Ziggy),
+            },
+        });
+
+        app.use(plugin).mount(el);
     },
-    
     progress: {
         color: '#4B5563',
     },
 });
-
