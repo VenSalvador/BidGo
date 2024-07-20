@@ -37,11 +37,11 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-/*
-Route::get('/my-bid', function () {
+
+/*Route::get('/my-bid', function () {
     return Inertia::render('MyBids');
-})->name('myBids');
-*/
+})->name('MyBids');*/
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

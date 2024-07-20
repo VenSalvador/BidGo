@@ -14,10 +14,6 @@ const showingNavigationDropdown = ref(false);
 
 <template>
     <div>
-        <Head>
-      <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-      <!-- Other meta tags -->
-    </Head>
         <div class="min-h-screen" :style="{ backgroundColor: '#EEF4ED' }">
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
@@ -27,7 +23,7 @@ const showingNavigationDropdown = ref(false);
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center mt-7">
                                 <Link :href="route('CarrierDashboard')">
-                                    <ApplicationLogo class="block h-1 w-1 fill-current text-gray-800" />
+                                    <ApplicationLogo />
                                 </Link>
                             </div>
 
