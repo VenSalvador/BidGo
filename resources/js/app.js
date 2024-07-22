@@ -21,7 +21,7 @@ createInertiaApp({
         // Add the route method globally
         app.mixin({
             methods: {
-                route: (name, params, absolute) => route(name, params, absolute, Ziggy),
+                route: (name, params, absolute) => route(name, params, absolute),
             },
         });
 

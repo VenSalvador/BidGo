@@ -9,22 +9,8 @@ export default defineConfig({
             input: 'resources/js/app.js',
             refresh: true,
         }),
-        vue({
-            template: {
-                transformAssetUrls: {
-                    base: null,
-                    includeAbsolute: false,
-                },
-            },
-        }),
+        vue(),
     ],
-    css: {
-        preprocessorOptions: {
-          css: {
-            // Add any CSS preprocessor options here if needed
-          }
-        }
-    },
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'resources/js'),
