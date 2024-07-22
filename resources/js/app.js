@@ -5,8 +5,6 @@ import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from 'ziggy-vue'; // Import ZiggyVue from the package
-import { Ziggy } from './ziggy-routes'; // Path to your generated Ziggy routes file
-import { route } from 'ziggy-js';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -17,7 +15,7 @@ createInertiaApp({
         const app = createApp({ render: () => h(App, props) });
 
         // Use ZiggyVue plugin
-        app.use(ZiggyVue, { Ziggy });
+        app.use(ZiggyVue);
 
         // Add the route method globally
         app.mixin({
