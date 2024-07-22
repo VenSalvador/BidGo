@@ -44,7 +44,7 @@ const props = defineProps({
     </div>
 
     <form @submit.prevent="submit">
-      <div>0
+      <div>
         <InputLabel for="email" value="Email" class="text-xl" />
 
         <TextInput
