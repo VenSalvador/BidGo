@@ -18,16 +18,6 @@ export default defineConfig({
             },
         }),
     ],
-    server: {
-        proxy: {
-            '/api': {
-                target: 'https://your-domain.com', // Use a domain name here
-                changeOrigin: true,
-                secure: false, // Set to true if the target is HTTPS
-                rewrite: (path) => path.replace(/^\/api/, ''),
-            },
-        },
-    },
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'resources/js'),
@@ -37,6 +27,9 @@ export default defineConfig({
     build: {
         rollupOptions: {
             // Customize Rollup options if needed
+            input: {
+                main: path.resolve(__dirname, 'resources/js/app.js'),
+            },
         },
         assetsInclude: ['**/*.svg', '**/*.png'] // Include additional asset types if needed
     }
