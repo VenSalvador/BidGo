@@ -29,6 +29,6 @@
         "moment": "^2.30.1",
         "sweetalert2": "^11.6.13",
         "vuetify": "^3.6.13",
-        "ziggy-js": "^2.2.1"
+        "ziggy-js": "^2.3.0"
     }
 }
