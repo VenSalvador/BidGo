@@ -18,6 +18,13 @@ export default defineConfig({
             },
         }),
     ],
+    css: {
+        preprocessorOptions: {
+          css: {
+            // Add any CSS preprocessor options here if needed
+          }
+        }
+    },
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'resources/js'),
