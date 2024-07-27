@@ -6,6 +6,7 @@ use App\Http\Controllers\CarrierController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\MyBidsController;
 use App\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\ProvinceController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -22,7 +23,7 @@ Route::get('/', function () {
 Route::get('/carrier-dashboard', [CarrierController::class, 'showDashboard'])->name('CarrierDashboard');
 Route::get('/my-bid', [MyBidsController::class, 'showMyBids'])->name('MyBids');
 
-Route::get('/provinces', [RegisteredUserController::class, 'getProvinces'])->name('provinces');
+Route::get('/provinces', [ProvinceController::class, 'index'])->name('provinces');
 Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
 
 Route::post('/register', [RegisteredUserController::class, 'store']);
@@ -36,7 +37,6 @@ Route::post('/filter-by-vehicle', [ItemController::class, 'filterByVehicleType']
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
 
 /*Route::get('/my-bid', function () {
     return Inertia::render('MyBids');

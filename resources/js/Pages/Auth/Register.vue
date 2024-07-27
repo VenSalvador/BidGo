@@ -46,7 +46,17 @@
       </div>
 
       <div class="mt-4">
-        <Multiselect />
+        <InputLabel for="province" value="Province" />
+        <Multiselect
+          id="province"
+          v-model="selectedProvince"
+          :options="provinces"
+          placeholder="Province"
+          label="name"
+          track-by="id"
+          class="mt-1 block w-full"
+          required
+        />
         <InputError class="mt-2" :message="form.errors.province" />
       </div>
 
@@ -64,7 +74,7 @@
       </div>
 
       <div class="mt-4">
-        <InputLabel for="password" value="Password" class="text-xl" />
+        <InputLabel for="password" value="Password" />
         <div class="relative">
           <TextInput
             id="password"
@@ -92,7 +102,6 @@
         <InputLabel
           for="password_confirmation"
           value="Confirm Password"
-          class="text-xl"
         />
         <div class="relative">
           <TextInput
@@ -144,12 +153,31 @@
         <InputError class="mt-2" :message="form.errors.role" />
       </div>
 
+      <div class="mt-4">
+        <label class="inline-flex items-center">
+          <input
+            type="checkbox"
+            class="form-checkbox"
+            id="terms"
+            v-model="form.terms"
+            required
+          />
+          <span class="ml-2">
+            I agree to the
+            <a href="/terms-and-conditions" target="_blank" class="text-blue-600 hover:underline">
+              terms and conditions
+            </a>.
+          </span>
+        </label>
+        <InputError class="mt-2" :message="form.errors.terms" />
+      </div>
+
       <div class="flex items-center justify-end mt-4">
         <Link
           :href="route('login')"
           class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
-          Already registered?
+          Already have an account?
         </Link>
         <PrimaryButton
           class="ms-4"
@@ -169,26 +197,25 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import Multiselect from "@/Components/Multiselect.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import Swal from "sweetalert2";
-import { ref } from "vue";
-import { usePage } from '@inertiajs/vue3';
+import { ref, onMounted } from "vue";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/vue/24/solid";
+import Multiselect from "vue-multiselect";
 
 const showPassword = ref(false);
 const showPasswordConfirmation = ref(false);
 
-const { props } = usePage();
 const form = useForm({
   name: "",
   email: "",
   password: "",
   password_confirmation: "",
   role: "",
-  province: null,
+  province: "",
   mobile: "",
   postalcode: "",
+  terms: false
 });
 
 const togglePasswordVisibility = () => {
@@ -199,22 +226,61 @@ const togglePasswordConfirmationVisibility = () => {
   showPasswordConfirmation.value = !showPasswordConfirmation.value;
 };
 
-const submit = () => {
-  Swal.fire({
-    title: "Do you want to continue your registration?",
-    showDenyButton: true,
-    showCancelButton: false,
-    confirmButtonText: "Yes",
-    denyButtonText: `No`,
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire("Registered successfully!", "", "OK");
-      form.post(route("register"), {
-        onFinish: () => form.reset("password", "password_confirmation"),
-      });
-    } else if (result.isDenied) {
-      Swal.fire("Changes are not saved", "", "info");
+const provinces = ref([]);
+const selectedProvince = ref(null);
+
+const fetchProvinces = async () => {
+  try {
+    const response = await fetch("/provinces");
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+    const data = await response.json();
+    provinces.value = data.provinces;
+  } catch (error) {
+    console.error("Error fetching provinces:", error);
+  }
+};
+
+onMounted(async () => {
+  await fetchProvinces();
+});
+
+const submit = () => {
+  if (!form.terms) {
+    console.error('You must agree to the terms and conditions.');
+    return;
+  }
+  if (selectedProvince.value) {
+    form.province = selectedProvince.value.name;  // Set province name
+  }
+  form.post(route('register'), {
+    onSuccess: () => {
+      form.reset('password', 'password_confirmation');
+    },
+    onError: (errors) => {
+      console.error('Form submission failed:', errors);
+    },
   });
 };
+
 </script>
+
+<style>
+@import "vue-multiselect/dist/vue-multiselect.css";
+
+.custom-multiselect .multiselect {
+  border: 1px solid #d1d5db; /* Tailwind's border-gray-300 */
+  border-radius: 0.375rem; /* Tailwind's rounded-md */
+  padding: 0.5rem 1rem; /* Tailwind's py-2 px-4 */
+  background-color: #ffffff; /* Tailwind's bg-white */
+}
+
+.custom-multiselect .multiselect__option--highlight {
+  background-color: #f3f4f6; /* Tailwind's bg-gray-100 */
+}
+
+.custom-multiselect .multiselect__option--selected {
+  background-color: #e5e7eb; /* Tailwind's bg-gray-200 */
+}
+</style>

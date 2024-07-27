@@ -19,15 +19,22 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-
     public function create(): Response
+    {
+        return Inertia::render('Auth/Register');
+    }
+
+    /**
+     * Fetch provinces.
+     */
+    public function fetchProvinces()
     {
         try {
             $provinces = Province::all();
-            return inertia('Auth/Register', ['provinces' => $provinces]);
+            return response()->json($provinces);
         } catch (\Exception $e) {
             \Log::error('Error fetching provinces: ' . $e->getMessage());
-            return inertia('Auth/Register', ['provinces' => []]);
+            return response()->json([], 500);
         }
     }
 
@@ -37,27 +44,40 @@ class RegisteredUserController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'mobile' => 'required',
-            'province' => 'required|string',
-            'postal' => 'required|int|max:4',
-            'role' => 'required|string'
-        ]);
+{
+    \Log::info('Registration request received', $request->all());
 
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|confirmed|min:8',
+        'role' => 'required|string',
+        'province' => 'required|string',
+        'mobile' => 'required|string',
+        'postalcode' => 'required|string',
+    ]);
+
+    $province = is_array($request->province) ? $request->province['id'] : $request->province;
+    
+    try {
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role,
+            'province' => $province,
+            'mobile' => $request->mobile,
+            'postalcode' => $request->postalcode,
         ]);
 
-        event(new Registered($user));
-
+        // Optionally log in the user
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect()->route('dashboard');
+    } catch (\Exception $e) {
+        \Log::error('Registration error: ' . $e->getMessage());
+        \Log::error('Request Data:', $request->all()); // Log request data for debugging
+        return back()->withErrors(['error' => 'Registration failed. Please try again.'])->withInput();
     }
+}
 }
