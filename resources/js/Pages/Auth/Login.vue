@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
+
 import { EyeIcon, EyeSlashIcon } from "@heroicons/vue/24/solid";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import InputError from "@/Components/InputError.vue";
@@ -22,6 +23,16 @@ const togglePasswordVisibility = () => {
 
 const submit = () => {
   form.post(route("login"), {
+    onSuccess: () => {
+      // Determine the redirection based on user role
+      if (form.user.role === 'Client') {
+        route('dashboard').visit(); // Replace with your user dashboard route
+      } else if (form.user.role === 'Carrier') {
+        route('carrier-dashboard').visit(); // Replace with your carrier dashboard route
+      } else {
+        route('register').visit(); // Default dashboard route if role is unknown
+      }
+    },
     onFinish: () => form.reset("password"),
   });
 };
