@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/submit-bid', [ItemController::class, 'submitBid'])->name('submitBid');
     Route::get('/my-bids', [BidController::class, 'myBids'])->name('bids.myBids');
-    Route::post('/bids/{id}', [BidController::class, 'update'])->name('bids.update');
+    Route::put('/bids/{id}', [BidController::class, 'update'])->name('bids.update');
     Route::delete('/bids/{id}', [BidController::class, 'destroy'])->name('bids.destroy');
     Route::get('/lowest-bids', [BidController::class, 'lowestBids'])->name('bids.lowestBids');
 });

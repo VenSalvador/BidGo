@@ -117,8 +117,8 @@
                 </div>
             </transition>
 
-              <!-- Update Bid Modal -->
-              <transition name="fade">
+            <!-- Update Bid Modal -->
+            <transition name="fade">
                 <div v-if="updateBidModalVisible" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75">
                     <div class="bg-white p-6 rounded-lg w-full max-w-sm">
                         <div class="text-xl font-semibold mb-2">Update Bid</div>
@@ -142,7 +142,6 @@
                     </div>
                 </div>
             </transition>
-
         </div>
     </AuthenticatedLayout>
 </template>
@@ -157,9 +156,9 @@ export default {
             bids: [],
             modalVisible: false,
             showItemInfo: false,
-            updateBidModalVisible: false, // Initialize this property
-            updateBidAmount: null, // Initialize this property
-            selectedBidId: null, // Initialize this property
+            updateBidModalVisible: false,
+            updateBidAmount: null,
+            selectedBidId: null,
             selectedItem: {
                 client: '',
                 formattedPickupTime: '',
@@ -192,62 +191,59 @@ export default {
                 console.error('Error fetching bids:', error);
             }
         },
-
         async confirmUpdateBid() {
-    try {
+      try {
         console.log('Selected Bid ID:', this.selectedBidId);
         console.log('Update Bid Amount:', this.updateBidAmount);
 
-        const response = await axios.put(`/bids/${this.selectedBidId}`, {
+          const response = await axios.put(`/bids/${this.selectedBidId}`, {
             bid_amount: this.updateBidAmount
         });
 
-        console.log('Update Response:', response.data);
+          console.log('Update Response:', response.data);
 
-        this.updateBidModalVisible = false;
-        this.fetchBids();
-    } catch (error) {
-        console.error('Error updating bid:', error.response ? error.response.data : error.message);
-    }
-},
-
+          this.updateBidModalVisible = false;
+          this.fetchBids();
+        } catch (error) {
+           console.error('Error updating bid:', error.response ? error.response.data : error.message);
+         }
+        },
         showModal(bid) {
             this.selectedItem = {
-                client: bid.item.item_client,
+                client: bid.item.client,
                 formattedPickupTime: moment(bid.item.pickup_time).format('MMMM Do YYYY, h:mm:ss a'),
                 vehicle_type: bid.item.vehicle_type,
-                destination: bid.item.item_destination,
-                currentBids: bid.item.item_current_bids,
+                destination: bid.item.destination,
+                currentBids: bid.item.current_bids,
                 quote: bid.item.item_quote,
-                itemName: bid.item.description,
-                length: bid.item.item_length,
-                width: bid.item.item_width,
-                height: bid.item.item_height,
-                weight: bid.item.item_weight
+                itemName: bid.item.item_name,
+                length: bid.item.length,
+                width: bid.item.width,
+                height: bid.item.height,
+                weight: bid.item.weight
             };
             this.modalVisible = true;
-            this.showItemInfo = false;
-        },
-        openBidModal(bid) {
-            this.updateBidModalVisible = true; // Use 'this' to access data properties
-            this.updateBidAmount = bid.bid_amount; // Use 'this' to access data properties
-            this.selectedBidId = bid.id; // Use 'this' to access data properties
-        },
-        openDeleteModal(bidId) {
-            console.log('Open Delete Modal:', bidId);
-        },
-        getLowestBid(itemId) {
-            const lowestBid = this.bids.find(bid => bid.item_id === itemId && bid.isLowestBid);
-            return lowestBid ? lowestBid.bid_amount : 'N/A';
         },
         cancel() {
             this.modalVisible = false;
+            this.updateBidModalVisible = false;
+        },
+        openBidModal(bid) {
+            this.updateBidModalVisible = true;
+            this.updateBidAmount = bid.bid_amount;
+            this.selectedBidId = bid.id;
         },
         cancelUpdateBid() {
-            this.updateBidModalVisible = false; // Use 'this' to access data properties
+            this.updateBidModalVisible = false;
+            this.updateBidAmount = null;
+            this.selectedBidId = null;
+        },
+        getLowestBid(itemId) {
+            const itemBids = this.bids.filter(bid => bid.item_id === itemId);
+            return Math.min(...itemBids.map(bid => bid.bid_amount));
         }
     },
-    mounted() {
+    created() {
         this.fetchBids();
     }
 };
@@ -257,7 +253,13 @@ export default {
 .my-bids-page {
     background-color: #EEF4ED;
 }
-.item-card {
-    cursor: pointer;
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>
