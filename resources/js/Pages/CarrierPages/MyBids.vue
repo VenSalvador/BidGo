@@ -1,5 +1,5 @@
 <template>
-    <AuthenticatedLayout>
+  <AuthenticatedLayout>
         <div class="my-bids-page pb-16" ref="MyBidsPage">
             <div class="container mx-auto px-3 py-5">
                 <h1 class="text-2xl font-bold mb-5">My Bids</h1>
@@ -44,6 +44,20 @@
                     </div>
                 </transition-group>
             </div>
+
+                <!-- Confirmation Modal for Deleting a Bid -->
+      <transition name="fade">
+        <div v-if="deleteModalVisible" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75">
+          <div class="bg-white p-6 rounded-lg w-full max-w-sm">
+            <div class="text-center text-xl font-semibold mb-4">Confirm Deletion</div>
+            <p class="text-center mb-4">Are you sure you want to delete this bid?</p>
+            <div class="flex justify-center space-x-4">
+              <button @click="confirmDeleteBid" class="bg-red-500 text-white py-2 px-4 rounded-lg">Yes, Delete</button>
+              <button @click="cancelDeleteBid" class="bg-gray-300 py-2 px-4 rounded-lg">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </transition>
 
             <!-- Item Shipping/Item Information Modal -->
             <transition name="fade">
@@ -149,8 +163,13 @@
 <script>
 import axios from 'axios';
 import moment from 'moment';
+import Swal from 'sweetalert2';
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
 export default {
+    components: {
+        AuthenticatedLayout
+    },
     data() {
         return {
             bids: [],
@@ -159,6 +178,7 @@ export default {
             updateBidModalVisible: false,
             updateBidAmount: null,
             selectedBidId: null,
+            deleteModalVisible: false,
             selectedItem: {
                 client: '',
                 formattedPickupTime: '',
@@ -192,21 +212,51 @@ export default {
             }
         },
         async confirmUpdateBid() {
-      try {
-        console.log('Selected Bid ID:', this.selectedBidId);
-        console.log('Update Bid Amount:', this.updateBidAmount);
+            try {
+                const response = await axios.put(`/bids/${this.selectedBidId}`, {
+                    bid_amount: this.updateBidAmount
+                });
 
-          const response = await axios.put(`/bids/${this.selectedBidId}`, {
-            bid_amount: this.updateBidAmount
-        });
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Bid updated successfully!',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
 
-          console.log('Update Response:', response.data);
+                this.updateBidModalVisible = false;
+                this.fetchBids();
+            } catch (error) {
+                console.error('Error updating bid:', error.response ? error.response.data : error.message);
 
-          this.updateBidModalVisible = false;
-          this.fetchBids();
-        } catch (error) {
-           console.error('Error updating bid:', error.response ? error.response.data : error.message);
-         }
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to update bid. Please try again.'
+                });
+            }
+        },
+        async confirmDeleteBid() {
+            try {
+                await axios.delete(`/bids/${this.selectedBidId}`);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Bid deleted successfully!',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                this.deleteModalVisible = false;
+                this.fetchBids();
+            } catch (error) {
+                console.error('Error deleting bid:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to delete bid. Please try again.'
+                });
+            }
         },
         showModal(bid) {
             this.selectedItem = {
@@ -238,6 +288,14 @@ export default {
             this.updateBidAmount = null;
             this.selectedBidId = null;
         },
+        openDeleteModal(bidId) {
+            this.deleteModalVisible = true;
+            this.selectedBidId = bidId;
+        },
+        cancelDeleteBid() {
+            this.deleteModalVisible = false;
+            this.selectedBidId = null;
+        },
         getLowestBid(itemId) {
             const itemBids = this.bids.filter(bid => bid.item_id === itemId);
             return Math.min(...itemBids.map(bid => bid.bid_amount));
@@ -248,6 +306,7 @@ export default {
     }
 };
 </script>
+
 
 <style scoped>
 .my-bids-page {
