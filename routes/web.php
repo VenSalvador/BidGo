@@ -7,6 +7,7 @@ use App\Http\Controllers\BidController;
 use App\Http\Controllers\MyBidsController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\ProvinceController;
+use App\Http\Controllers\AddItemController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,6 +29,9 @@ Route::get('/register', [RegisteredUserController::class, 'create'])->name('regi
 
 Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::get('/carrier-dashboard', [CarrierController::class, 'showDashboard'])->name('CarrierDashboard');
+
+Route::get('/add-item', [AddItemController::class, 'showAddItem'])->name('AddItem');
+
 
 // Item Controller Routes
 Route::get('/items', [ItemController::class, 'index'])->name('items.index');

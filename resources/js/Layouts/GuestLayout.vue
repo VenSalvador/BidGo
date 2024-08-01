@@ -10,8 +10,6 @@ import { Link, Head } from '@inertiajs/vue3';
                 <ApplicationLogo class="w-40 h-40 fill-current text-gray-500" :style="{ backgroundColor: '#EEF4ED' }"/>
             </Link>
         </div>
-
-
             <slot />
 
     </div>
