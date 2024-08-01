@@ -30,6 +30,8 @@
   import axios from 'axios';
   import { defineProps, ref } from 'vue';
   import moment from 'moment';
+  import Swal from 'sweetalert2';
+
 
   const props = defineProps({
     selectedItem: {
@@ -53,15 +55,30 @@
     try {
       const response = await axios.post('/submit-bid', bidData);
       console.log('Bid submitted successfully:', response.data);
-      alert('Bid Successfully Submitted!');
+      Swal.fire({
+        title: 'Bid Successfully Submitted!',
+        text: 'Your bid has been submitted successfully.',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
       // Handle success (e.g., show a success message, navigate to another page, etc.)
     } catch (error) {
       if (error.response) {
         console.error('Error submitting bid:', error.response.data);
-        alert(`Error submitting bid: ${JSON.stringify(error.response.data)}`);
+        Swal.fire({
+          title: 'Error Submitting Bid',
+          text: `Error submitting bid: ${JSON.stringify(error.response.data)}`,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
       } else {
         console.error('Error submitting bid:', error.message);
-        alert(`Error submitting bid: ${error.message}`);
+        Swal.fire({
+          title: 'Error Submitting Bid',
+          text: `Error submitting bid: ${error.message}`,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
       }
     }
   };
