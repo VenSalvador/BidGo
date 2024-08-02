@@ -11,6 +11,7 @@ class Item extends Model
 
     protected $fillable = [
         'id',
+        'user_id',
         'item_name',
         'item_client',
         'item_weight',
@@ -36,5 +37,12 @@ class Item extends Model
 {
     return $this->hasMany(Bid::class);
 }
+
+public function user()
+{
+    return $this->belongsTo(User::class, 'user_id');
+}
+
+
 
 }
