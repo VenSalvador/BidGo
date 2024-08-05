@@ -1,7 +1,6 @@
 <template>
   <AuthenticatedLayout>
     <Head title="Dashboard" />
-    <transition name="fade-in">
     <div class="carrier-dashboard-page pb-20" ref="CarrierDashboard">
       <div class="top-right-icons">
         <img src="../../../assets/bell.svg" alt="Notification Icon" class="icon w-6 h-6" />
@@ -160,7 +159,6 @@
         </div>
       </div>
     </div>
-   </transition>
   </AuthenticatedLayout>
 </template>
 
@@ -173,8 +171,6 @@ import ItemCard from '../../Components/ItemCard.vue';
 import ReviewAndConfirm from '../../Components/ReviewAndConfirm.vue'; // Correct casing
 import { useWindowScroll } from '@vueuse/core';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import Swal from 'sweetalert2';
-
 
 const { props } = usePage();
 const step = ref(1);
@@ -305,12 +301,12 @@ onMounted(() => {
 .help-icon {
   cursor: pointer;
 }
-.fade-in-enter-active, .fade-in-leave-active {
-    transition: opacity 0.5s;
-  }
-  .fade-in-enter, .fade-in-leave-to {
-    opacity: 0;
-  }
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
 .top-right-icons {
   display: flex;
   gap: 16px;

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CarrierController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\MyBidsController;
 use App\Http\Controllers\RegisteredUserController;
@@ -28,7 +29,7 @@ Route::get('/provinces', [ProvinceController::class, 'index'])->name('provinces'
 Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
 
 Route::post('/register', [RegisteredUserController::class, 'store']);
-Route::get('/carrier-dashboard', [CarrierController::class, 'showDashboard'])->name('CarrierDashboard');
+Route::get('/client-dashboard', [ClientController::class, 'showDashboard'])->name('ClientDashboard');
 
 Route::get('/add-item', [AddItemController::class, 'showAddItem'])->name('AddItem');
 

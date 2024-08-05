@@ -26,7 +26,7 @@ const submit = () => {
     onSuccess: () => {
       // Determine the redirection based on user role
       if (form.user.role === 'Client') {
-        route('dashboard').visit(); // Replace with your user dashboard route
+        route('client-dashboard').visit(); // Replace with your user dashboard route
       } else if (form.user.role === 'Carrier') {
         route('carrier-dashboard').visit(); // Replace with your carrier dashboard route
       } else {
