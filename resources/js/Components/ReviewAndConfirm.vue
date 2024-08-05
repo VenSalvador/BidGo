@@ -5,7 +5,7 @@
         <div class="mb-6 w-full">
           <h3 class="text-xl font-medium mb-4">Selected Item:</h3>
           <p><b>Item Name: </b>{{ selectedItem.item_name }}</p>
-          <p><b>Client: </b>{{ selectedItem.item_client }}</p>
+          <p><b>Client: </b>{{ selectedItem.user_id }}</p>
           <p><b>Pick-up time: </b>{{ formattedPickupTime }}</p>
           <p><b>Destination: </b>{{ selectedItem.item_destination }}</p>
           <p><b>Current Bids: </b>{{ selectedItem.item_current_bids }}</p>

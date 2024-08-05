@@ -90,7 +90,7 @@
                   <div class="space-y-4">
                     <div class="flex justify-between border-b pb-2">
                       <label class="font-bold">Order from:</label>
-                      <span>{{ selectedItem.item_client }}</span>
+                      <span>{{ selectedItem.user.name }}</span>
                     </div>
                     <div class="flex justify-between border-b pb-2">
                       <label class="font-bold">Ship Out Date:</label>
@@ -204,12 +204,13 @@ const selectedItem = ref({
 });
 
 const fetchItems = async () => {
-  try {
-    const response = await axios.get('/items');
-    items.value = response.data;
-  } catch (error) {
-    console.error('Error fetching items:', error);
-  }8
+    try {
+        const response = await axios.get('/items');
+        items.value = response.data;
+        console.log('Fetched items:', items.value);
+    } catch (error) {
+        console.error('Error fetching items:', error);
+    }
 };
 
 const bidRules = [

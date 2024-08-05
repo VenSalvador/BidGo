@@ -12,7 +12,9 @@ class BidController extends Controller
     {
         $userId = $request->user()->id;
 
-        $bids = Bid::where('user_id', $userId)->with('item')->get();
+        $bids = Bid::where('user_id', $userId)
+                    ->with(['item.user']) // Eager load the user relationship through the item relationship
+                    ->get();
 
         return response()->json($bids);
     }

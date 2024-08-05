@@ -190,7 +190,8 @@ export default {
                 length: '',
                 width: '',
                 height: '',
-                weight: ''
+                weight: '',
+                userName: '' // Add this field to store the user name
             }
         };
     },
@@ -198,7 +199,7 @@ export default {
         formattedBids() {
             return this.bids.map(bid => ({
                 ...bid,
-                formattedPickupTime: moment(bid.item.pickup_time).format('MMMM Do YYYY, h:mm:ss a')
+                formattedPickupTime: moment(bid.item.item_pickup_time).format('MMMM Do YYYY')
             }));
         }
     },
@@ -258,22 +259,22 @@ export default {
                 });
             }
         },
-        showModal(bid) {
-            this.selectedItem = {
-                client: bid.item.client,
-                formattedPickupTime: moment(bid.item.pickup_time).format('MMMM Do YYYY, h:mm:ss a'),
-                vehicle_type: bid.item.vehicle_type,
-                destination: bid.item.destination,
-                currentBids: bid.item.current_bids,
-                quote: bid.item.item_quote,
-                itemName: bid.item.item_name,
-                length: bid.item.length,
-                width: bid.item.width,
-                height: bid.item.height,
-                weight: bid.item.weight
-            };
-            this.modalVisible = true;
-        },
+    showModal(bid) {
+      this.selectedItem = {
+        client: bid.item.user.name, // Use bid.item.user.name to get the user's name
+        formattedPickupTime: moment(bid.item.item_pickup_time).format('MMMM Do YYYY'),
+        vehicle_type: bid.item.vehicle_type,
+        destination: bid.item.item_destination,
+        currentBids: bid.item.item_current_bids,
+        quote: bid.item.item_quote,
+        itemName: bid.item.item_name,
+        length: bid.item.item_length,
+        width: bid.item.item_width,
+        height: bid.item.item_height,
+        weight: bid.item.item_weight
+    };
+    this.modalVisible = true;
+   },
         cancel() {
             this.modalVisible = false;
             this.updateBidModalVisible = false;
