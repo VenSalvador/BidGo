@@ -19,7 +19,7 @@
           class="relative bg-white rounded-lg overflow-hidden w-full p-3 mx-auto lg:max-w-screen-lg shadow-lg cursor-pointer hover:transform hover:scale-105 transition-transform duration-300 ease-in-out"
           @click="toggleContentCard1"
         >
-        <div class="bg-orange-500 p-3 rounded-t-lg">
+          <div class="bg-orange-500 p-3 rounded-t-lg">
             <div class="block sm:hidden w-full mb-3 text-center">
               <img
                 src="../../assets/programmer.jpg"
@@ -31,7 +31,6 @@
             <h3 class="text-md md:text-lg font-bold text-white">Use BidGo!</h3>
           </div>
           <section class="relative flex flex-wrap p-3 pb-12 rounded-b-lg">
-            <!-- Add padding-bottom -->
             <div v-if="!showCarousel" class="w-full sm:w-7/12 md:w-1/2 sm:pr-3">
               <hr class="border-t-2 border-gray-400 my-3" />
               <p class="text-sm md:text-base text-black mb-3">
@@ -79,7 +78,7 @@
               </div>
             </div>
           </div>
-          </div>
+        </div>
 
         <div
           class="relative bg-white rounded-lg overflow-hidden w-full p-3 mx-auto lg:max-w-screen-lg shadow-lg cursor-pointer hover:transform hover:scale-105 transition-transform duration-300 ease-in-out mt-4"
@@ -97,7 +96,7 @@
               Want to earn extra income while driving?
             </h2>
             <h3 class="text-md md:text-lg text-white">
-                Be a BidGo Carrier!
+              Be a BidGo Carrier!
             </h3>
           </div>
           <section class="relative flex flex-wrap p-3 pb-12 rounded-b-lg">
@@ -121,14 +120,14 @@
                   unparalleled flexibility and choice.
                   <div v-if="showMoreCard2 || isLargeScreen">
                     <div>
-                    <button
-                    v-if="!showCarousel"
-                    class="continue-btn btn-primary absolute bottom-3 left-3 px-3 py-1 bg-orange-500 text-white hover:bg-orange-700 rounded"
-                    @click.stop="showCarousel = true"
-                  >
-                    Continue
-                  </button>
-                </div>
+                      <button
+                        v-if="!showCarousel"
+                        class="continue-btn btn-primary absolute bottom-3 left-3 px-3 py-1 bg-orange-500 text-white hover:bg-orange-700 rounded"
+                        @click.stop="showCarousel = true"
+                      >
+                        Continue
+                      </button>
+                    </div>
                   </div>
                 </div>
               </transition>
@@ -149,7 +148,7 @@
     </GuestLayout>
   </template>
 
-    <script setup>
+  <script setup>
   import { ref, onMounted } from "vue";
   import GuestLayout from "@/Layouts/GuestLayout.vue";
   import { Head, Link } from "@inertiajs/inertia-vue3";
@@ -210,103 +209,96 @@
     if (landingPage.value) {
       setTimeout(() => {
         landingPage.value.classList.add("animate-drop-down");
-      }, 100);
+      }, 0); // Delay slightly to allow rendering
     }
 
-    // Fetch items from API
+    // Fetch items from the server
     await fetchItems();
 
-    // Check initial screen size
+    // Check screen size on mount
     checkScreenSize();
+
+    // Add event listener to handle screen resize
     window.addEventListener("resize", checkScreenSize);
+
+    // Remove event listener when component is unmounted
+    onBeforeUnmount(() => {
+      window.removeEventListener("resize", checkScreenSize);
+    });
   });
   </script>
 
-    <style scoped>
-  body,
-  html {
-    margin: 0;
-    padding: 0;
-  }
-
+  <style scoped>
   .landing-page {
-    margin-top: 0; /* Ensure there's no extra margin at the top */
+    padding: 1rem;
   }
 
-  .animate-drop-down {
-    animation: dropDown 1s ease-out;
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
-  @keyframes dropDown {
-    from {
-      transform: translateY(-20px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
+  .shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .transition-transform {
+    transition: transform 0.3s;
+  }
+
+  .transform {
+    transform: scale(1);
+  }
+
+  .bg-orange-500 {
+    background-color: #ed8936;
+  }
+
+  .bg-orange-700 {
+    background-color: #dd6b20;
+  }
+
+  .hover\:bg-orange-700:hover {
+    background-color: #dd6b20;
+  }
+
+  .hover\:scale-105:hover {
+    transform: scale(1.05);
+  }
+
+  .bg-gradient-to-l {
+    background: linear-gradient(to left, transparent, white);
+  }
+
+  .carousel-item-custom {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .custom-carousel {
-    margin-bottom: 2rem;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
   }
 
-  .custom-carousel .carousel-item-custom {
-    background-color: transparent; /* Set background color to transparent */
-    border: none; /* Remove border */
-    box-shadow: none; /* Remove box shadow */
+  .custom-carousel > .carousel-item-custom {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
   }
 
-  .custom-carousel .carousel-item-custom > div {
-    max-width: 344px;
-    background-color: #ffa726;
-    margin: auto;
-  }
-
-  .custom-carousel .w-64 {
-    width: 260px; /* Adjust width as needed */
-    height: auto; /* Maintain aspect ratio */
-    display: block;
-    margin: 0 auto 10px auto; /* Center the image and add some margin at the bottom */
-  }
-
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.5s;
-  }
-  .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
-    opacity: 0;
-  }
-
-  .btn-primary {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
+  button.continue-btn {
+    background-color: #ed8936;
+    color: white;
     padding: 0.5rem 1rem;
-    background-color: #ffa726;
-    color: #fff;
-    border: none;
-    border-radius: 0.375rem;
-    cursor: pointer;
+    border-radius: 0.25rem;
   }
 
-  .btn-primary:hover {
-    background-color: #ff9800;
-  }
-
-  .hover\:transform:hover {
-    transform: translateY(-5px);
-  }
-
-  .logo-container {
-    padding: 0;
-    margin: 0;
-  }
-
-  .logo-container img {
-    max-width: 150px; /* Adjust size as needed */
-    height: auto;
-    margin: 0; /* Remove any unintended margin */
+  button.continue-btn:hover {
+    background-color: #dd6b20;
   }
   </style>

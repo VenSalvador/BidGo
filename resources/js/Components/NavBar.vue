@@ -18,7 +18,7 @@
         </span>
         <span class="label">Add</span>
       </button>
-      <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('my-bid')">
+      <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('MyBids')">
         <span class="icon-circle">
           <img src="../../assets/package-nav.svg" alt="My Bids Icon" class="icon" />
         </span>
@@ -32,10 +32,10 @@
       </button>
     </nav>
   </template>
-  
+
   <script>
   import { Inertia } from '@inertiajs/inertia';
-  
+
   export default {
     methods: {
       navigateTo(page) {
@@ -44,7 +44,7 @@
     },
   };
   </script>
-  
+
   <style scoped>
   button {
     transition: background-color 0.3s ease;
@@ -73,4 +73,3 @@
     margin-top: 0.25rem; /* Space between icon and label */
   }
   </style>
-    
