@@ -1,4 +1,12 @@
 <template>
+
+<!--
+    ISSUE
+    Error 500: Possible Mismatch ng column names sa may axios or pagpasa
+
+
+
+-->
     <AuthenticatedLayout>
       <transition name="fade">
         <div class="bg-eeF4ED min-h-screen relative">
@@ -236,22 +244,36 @@
     }
   };
 
-  const submitForm = () => {
-    // Handle form submission
-    console.log('Form Submitted:', {
-      itemName: itemName.value,
-      itemQuote: itemQuote.value,
-      itemPickupTime: itemPickupTime.value,
-      itemDropoffTime: itemDropoffTime.value,
-      itemPickupLocation: itemPickupLocation.value,
-      itemDestination: itemDestination.value,
-      itemWeight: itemWeight.value,
-      itemHeight: itemHeight.value,
-      itemWidth: itemWidth.value,
-      itemLength: itemLength.value,
-      itemDescription: itemDescription.value,
+  const submitForm = async () => {
+  try {
+    const response = await axios.post('/add-item', {
+      item_name: itemName.value,
+      item_quote: itemQuote.value,
+      item_pickup_time: itemPickupTime.value,
+      item_dropoff_time: itemDropoffTime.value,
+      item_from: itemPickupLocation.value,
+      item_destination: itemDestination.value,
+      item_weight: itemWeight.value,
+      item_height: itemHeight.value,
+      item_width: itemWidth.value,
+      item_length: itemLength.value,
+      description: itemDescription.value,
+      vehicle: selectedVehicle.value, // Send the entire selectedVehicle object
+      user_id: 1, // Replace with the actual user ID
+      item_path: 'path/path',
+      item_status: 'pending',
+      is_bid_placed:0,
+      item_current_bids:0,
     });
-  };
+
+    if (response.data.success) {
+      alert('Item successfully added: ' + JSON.stringify(response.data.item));
+      // Redirect or show success message
+    }
+  } catch (error) {
+    alert('Error submitting form: ' + error);
+  }
+};
 
   const goToNextWindow = () => {
     if (currentWindow.value === 1) {

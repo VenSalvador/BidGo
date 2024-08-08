@@ -164,7 +164,7 @@
 import axios from 'axios';
 import moment from 'moment';
 import Swal from 'sweetalert2';
-import AuthenticatedLayout from "@/Layouts/CarrierAuthenticatedLayout.vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
 export default {
     components: {
