@@ -258,9 +258,9 @@
       item_width: itemWidth.value,
       item_length: itemLength.value,
       description: itemDescription.value,
-      vehicle: selectedVehicle.value, // Send the entire selectedVehicle object
+      vehicle_type: selectedVehicle?.vehicle_type,
       user_id: 1, // Replace with the actual user ID
-      item_path: 'path/path',
+      item_image: 'path/path',
       item_status: 'pending',
       is_bid_placed:0,
       item_current_bids:0,

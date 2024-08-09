@@ -29,13 +29,12 @@ class AddItemController extends Controller
                 'item_width' => 'required|numeric',
                 'item_length' => 'required|numeric',
                 'description' => 'required|string',
-                'vehicle' => 'required|array',
-                'vehicle.vehicle_type' => 'required|string|max:255',
+                'vehicle_type' => 'required|string|max:255',
                 'user_id' => 'required|exists:users,id',
             ]);
 
             // Add default values for item_path and item_status
-            $validatedData['item_path'] = 'path/path';
+            $validatedData['item_image'] = 'path/path';
             $validatedData['item_status'] = 'pending';
             $validatedData['item_current_bids'] = 0;
             $validatedData['is_bid_placed'] = 0;

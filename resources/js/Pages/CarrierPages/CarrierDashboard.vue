@@ -15,10 +15,30 @@
           </div>
 
           <div class="button-group flex justify-center p-1 space-x-4">
-            <button class="vehicle-button flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center" @click="filterItems('Motorcycle')">Motorcycle</button>
-            <button class="vehicle-button flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center" @click="filterItems('Van')">Van</button>
-            <button class="vehicle-button flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center" @click="filterItems('Pickup')">Pickup</button>
-            <button class="vehicle-button flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center" @click="filterItems('Truck')">Truck</button>
+            <button
+              class="vehicle-button flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center"
+              @click="filterItems('Motorcycle')"
+            >
+              Motorcycle
+            </button>
+            <button
+              class="vehicle-button flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center"
+              @click="filterItems('Van')"
+            >
+              Van
+            </button>
+            <button
+              class="vehicle-button flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center"
+              @click="filterItems('Pickup')"
+            >
+              Pickup
+            </button>
+            <button
+              class="vehicle-button flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center"
+              @click="filterItems('Truck')"
+            >
+              Truck
+            </button>
           </div>
 
           <div class="ongoing-text flex items-center p-5 space-x-2 text-sm font-semibold text-left mb-4">
@@ -26,7 +46,7 @@
             <img src="../../../assets/help-circle.svg" alt="An example icon" class="help-icon w-4 h-4 cursor-pointer" @click="showHelpModal('ongoing')" />
           </div>
 
-          <transition-group name="fade" tag="div" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <transition-group name="fade" mode="out-in" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             <ItemCard
               v-for="item in items"
               :key="item.id"
@@ -44,6 +64,7 @@
               @openBidModal="openBidModal(item)"
             />
           </transition-group>
+
 
           <!-- Dialogs and Modals -->
           <transition name="fade">
@@ -303,11 +324,14 @@ onMounted(() => {
   cursor: pointer;
 }
 .fade-enter-active, .fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
 .top-right-icons {
   display: flex;
   gap: 16px;

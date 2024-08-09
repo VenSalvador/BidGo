@@ -47,7 +47,9 @@ class ItemController extends Controller
         ]);
 
         $vehicleType = $validatedData['vehicle_type'];
-        $items = Item::where('vehicle_type', $vehicleType)->get();
+        $items = Item::with('user:id,name')
+                     ->where('vehicle_type', $vehicleType)
+                     ->get();
 
         return response()->json($items);
     }

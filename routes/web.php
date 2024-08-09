@@ -37,7 +37,7 @@ Route::get('/add-item', [AddItemController::class, 'showAddItem'])->name('AddIte
 // Item Controller Routes
 Route::get('/items', [ItemController::class, 'index'])->name('items.index');
 Route::get('/vehicles', [ItemController::class, 'getVehicles'])->name('vehicles.index');
-Route::post('/filter-by-vehicle', [ItemController::class, 'filterByVehicleType'])->name('filter.by.vehicle');
+Route::post('/filter-by-vehicle-type', [ItemController::class, 'filterByVehicleType']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -46,6 +46,7 @@ Route::get('/dashboard', function () {
 /*Route::get('/my-bid', function () {
     return Inertia::render('MyBids');
 })->name('MyBids');*/
+Route::get('/lowest-bids', [BidController::class, 'lowestBids'])->name('bids.lowestBids');
 
 
 Route::middleware('auth')->group(function () {
@@ -57,7 +58,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-bids', [BidController::class, 'myBids'])->name('bids.myBids');
     Route::put('/bids/{id}', [BidController::class, 'update'])->name('bids.update');
     Route::delete('/bids/{id}', [BidController::class, 'destroy'])->name('bids.destroy');
-    Route::get('/lowest-bids', [BidController::class, 'lowestBids'])->name('bids.lowestBids');
 });
 
 require __DIR__.'/auth.php';
