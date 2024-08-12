@@ -1,108 +1,112 @@
 <template>
-  <AuthenticatedLayout>
-    <Head title="Dashboard" />
-    <div class="carrier-dashboard-page pb-20" ref="CarrierDashboard">
-      <div class="top-right-icons">
-        <img src="../../../assets/bell.svg" alt="Notification Icon" class="icon w-6 h-6" />
-        <img src="../../../assets/magnify.svg" alt="Search Icon" class="icon w-6 h-6" />
-      </div>
+    <AuthenticatedLayout>
+      <Head title="Dashboard" />
+      <div class="carrier-dashboard-page pb-20" ref="CarrierDashboard">
+        <div class="top-right-icons">
+          <img src="../../../assets/bell.svg" alt="Notification Icon" class="icon w-6 h-6" />
+          <img src="../../../assets/magnify.svg" alt="Search Icon" class="icon w-6 h-6" />
+        </div>
 
-      <div class="dashboard">
-        <div v-show="step === 1">
-          <div class="ongoing-text flex items-center space-x-2 text-sm font-semibold text-left mb-4">
-            <span>Choose What to Browse</span>
-            <img src="../../../assets/help-circle.svg" alt="An example icon" class="help-icon w-4 h-4 cursor-pointer" @click="showHelpModal('vehicle')" />
-          </div>
+        <div class="dashboard">
+          <div v-show="step === 1">
+            <div class="ongoing-text flex items-center space-x-2 text-sm font-semibold text-left mb-4">
+              <span>Choose What to Browse</span>
+              <img src="../../../assets/help-circle.svg" alt="An example icon" class="help-icon w-4 h-4 cursor-pointer" @click="showHelpModal('vehicle')" />
+            </div>
 
-          <div class="button-group flex justify-center p-1 space-x-4">
-            <button
-              class="vehicle-button flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center"
-              @click="filterItems('Motorcycle')"
+            <div class="button-group flex justify-center p-1 space-x-4">
+              <button
+                class="vehicle-button flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center"
+                @click="filterItems('Motorcycle')"
+              >
+                Motorcycle
+              </button>
+              <button
+                class="vehicle-button flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center"
+                @click="filterItems('Van')"
+              >
+                Van
+              </button>
+              <button
+                class="vehicle-button flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center"
+                @click="filterItems('Pickup')"
+              >
+                Pickup
+              </button>
+              <button
+                class="vehicle-button flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center"
+                @click="filterItems('Truck')"
+              >
+                Truck
+              </button>
+            </div>
+
+            <div class="ongoing-text flex items-center p-5 space-x-2 text-sm font-semibold text-left mb-4">
+              <span>All Products</span>
+              <img src="../../../assets/help-circle.svg" alt="An example icon" class="help-icon w-4 h-4 cursor-pointer" @click="showHelpModal('ongoing')" />
+            </div>
+
+            <transition-group
+              name="fade"
+              mode="out-in"
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
             >
-              Motorcycle
-            </button>
-            <button
-              class="vehicle-button flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center"
-              @click="filterItems('Van')"
-            >
-              Van
-            </button>
-            <button
-              class="vehicle-button flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center"
-              @click="filterItems('Pickup')"
-            >
-              Pickup
-            </button>
-            <button
-              class="vehicle-button flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded text-center"
-              @click="filterItems('Truck')"
-            >
-              Truck
-            </button>
-          </div>
+              <ItemCard
+                v-for="item in items"
+                :key="item.id"
+                class="item-card relative flex flex-col border border-gray-300 rounded-lg overflow-hidden transition-transform duration-200 ease-in-out hover:transform hover:scale-105"
+                :item-name="item.item_name"
+                :item-image="item.item_image"
+                :client="item.item_client"
+                :weight="item.item_weight"
+                :from="item.item_from"
+                :to="item.item_destination"
+                :pickup-time="item.item_pickup_time"
+                :drop-off-time="item.item_dropoff_time"
+                :quote="item.item_quote"
+                :vehicle_type="item.vehicle_type"
+                @click="showModal(item)"
+                @openBidModal="openBidModal(item)"
+              />
+            </transition-group>
 
-          <div class="ongoing-text flex items-center p-5 space-x-2 text-sm font-semibold text-left mb-4">
-            <span>All Products</span>
-            <img src="../../../assets/help-circle.svg" alt="An example icon" class="help-icon w-4 h-4 cursor-pointer" @click="showHelpModal('ongoing')" />
-          </div>
-
-          <transition-group name="fade" mode="out-in" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            <ItemCard
-              v-for="item in items"
-              :key="item.id"
-              :item-name="item.item_name"
-              :item-image="item.item_image"
-              :client="item.item_client"
-              :weight="item.item_weight"
-              :from="item.item_from"
-              :to="item.item_destination"
-              :pickup-time="item.item_pickup_time"
-              :drop-off-time="item.item_dropoff_time"
-              :quote="item.item_quote"
-              :vehicle_type="item.vehicle_type"
-              @click="showModal(item)"
-              @openBidModal="openBidModal(item)"
-            />
-          </transition-group>
-
-
-          <!-- Dialogs and Modals -->
-          <transition name="fade">
-            <div v-if="bidModalVisible" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75">
-              <div class="bg-white p-6 rounded-lg w-full max-w-sm">
-                <h2 class="text-xl font-bold mb-4">Bid Confirmation</h2>
-                <form>
-                  <label for="bidAmount" class="block text-sm font-medium text-gray-700">Bid Amount</label>
-                  <input
-                    type="number"
-                    v-model.number="bidAmount"
-                    :class="bidRules"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-4 py-2"
-                    required
-                  />
-                </form>
-                <div class="mt-4 flex justify-end space-x-2">
-                  <button class="bg-green-500 text-white px-4 py-2 rounded" @click="confirmBid">Confirm Bid</button>
-                  <button class="bg-red-500 text-white px-4 py-2 rounded" @click="cancelBid">Cancel</button>
+            <!-- Modals -->
+            <transition name="fade">
+              <div v-if="bidModalVisible" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75">
+                <div class="bg-white p-6 rounded-lg w-full max-w-sm">
+                  <h2 class="text-xl font-bold mb-4">Bid Confirmation</h2>
+                  <form>
+                    <label for="bidAmount" class="block text-sm font-medium text-gray-700">Bid Amount</label>
+                    <input
+                      type="number"
+                      v-model.number="bidAmount"
+                      :class="bidRules"
+                      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-4 py-2"
+                      required
+                    />
+                  </form>
+                  <div class="mt-4 flex justify-end space-x-2">
+                    <button class="bg-green-500 text-white px-4 py-2 rounded" @click="confirmBid">Confirm Bid</button>
+                    <button class="bg-red-500 text-white px-4 py-2 rounded" @click="cancelBid">Cancel</button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </transition>
+            </transition>
 
-          <transition name="fade">
-            <div v-if="confirmDialog" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75">
-              <div class="bg-white p-6 rounded-lg w-full max-w-sm">
-                <h2 class="text-xl font-bold mb-4">Confirm Vehicle Selection</h2>
-                <p>Are you sure you want to select this vehicle?</p>
-                <div class="mt-4 flex justify-end space-x-2">
-                  <button class="bg-green-500 text-white px-4 py-2 rounded" @click="confirmSelection">Confirm</button>
-                  <button class="bg-red-500 text-white px-4 py-2 rounded" @click="confirmDialog = false">Cancel</button>
+            <transition name="fade">
+              <div v-if="confirmDialog" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75">
+                <div class="bg-white p-6 rounded-lg w-full max-w-sm">
+                  <h2 class="text-xl font-bold mb-4">Confirm Vehicle Selection</h2>
+                  <p>Are you sure you want to select this vehicle?</p>
+                  <div class="mt-4 flex justify-end space-x-2">
+                    <button class="bg-green-500 text-white px-4 py-2 rounded" @click="confirmSelection">Confirm</button>
+                    <button class="bg-red-500 text-white px-4 py-2 rounded" @click="confirmDialog = false">Cancel</button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </transition>
+            </transition>
 
-          <transition name="fade">
+            <transition name="fade">
               <div v-if="modalVisible" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75">
                 <div class="bg-white p-6 rounded-lg w-full max-w-sm max-h-screen overflow-auto">
                   <div class="bg-orange-400 rounded-t-lg p-3">
@@ -162,13 +166,13 @@
               </div>
             </transition>
 
-          <transition name="fade">
-            <div v-if="helpModalVisible" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75">
-              <div class="bg-white p-6 rounded-lg w-full max-w-sm">
-                <h2 class="text-xl font-bold mb-4">Help</h2>
-                <p>{{ helpModalText }}</p>
-                <div class="mt-4 flex justify-end">
-                  <button class="bg-blue-500 text-white px-4 py-2 rounded" @click="helpModalVisible = false">Close</button>
+            <transition name="fade">
+              <div v-if="helpModalVisible" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75">
+                <div class="bg-white p-6 rounded-lg w-full max-w-sm">
+                  <h2 class="text-xl font-bold mb-4">Help</h2>
+                  <p>{{ helpModalText }}</p>
+                  <div class="mt-4 flex justify-end">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded" @click="helpModalVisible = false">Close</button>
                 </div>
               </div>
             </div>
