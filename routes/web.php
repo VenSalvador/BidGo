@@ -50,6 +50,8 @@ Route::get('/dashboard', function () {
 Route::get('/lowest-bids', [BidController::class, 'lowestBids'])->name('bids.lowestBids');
 
 
+Route::get('/items/{item}/bids', [MyItemsController::class, 'getItemBids']);
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/add-item', [AddItemController::class, 'store']);
