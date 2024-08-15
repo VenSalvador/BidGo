@@ -6,7 +6,7 @@
         </span>
         <span class="label">Home</span>
       </button>
-      <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('mySale')">
+      <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('MyItems')">
         <span class="icon-circle">
           <img src="../../assets/currency-nav.svg" alt="My Sale Icon" class="icon" />
         </span>

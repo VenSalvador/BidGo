@@ -9,6 +9,7 @@ use App\Http\Controllers\MyBidsController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\AddItemController;
+use App\Http\Controllers\MyItemsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -49,6 +50,8 @@ Route::get('/dashboard', function () {
 Route::get('/lowest-bids', [BidController::class, 'lowestBids'])->name('bids.lowestBids');
 
 
+Route::get('/items/{item}/bids', [MyItemsController::class, 'getItemBids']);
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/add-item', [AddItemController::class, 'store']);
@@ -58,6 +61,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-bids', [BidController::class, 'myBids'])->name('bids.myBids');
     Route::put('/bids/{id}', [BidController::class, 'update'])->name('bids.update');
     Route::delete('/bids/{id}', [BidController::class, 'destroy'])->name('bids.destroy');
+    Route::get('/my-items', [MyItemsController::class, 'showMyItems'])->name('MyItems');
 });
 
 require __DIR__.'/auth.php';

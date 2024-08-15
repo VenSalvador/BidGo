@@ -1,6 +1,6 @@
 <template>
     <div
-      class="item-card relative flex flex-col py-1 px-4 border border-gray-300 rounded-lg overflow-hidden transition-transform duration-200 ease-in-out"
+      class="item-card relative flex flex-col py-4 px-4 border border-gray-300 rounded-lg overflow-hidden transition-transform duration-200 ease-in-out"
       :class="{ 'hover:transform hover:scale-105': !isClicked }"
       @click="handleCardClick"
     >
