@@ -149,7 +149,7 @@
   </template>
 
   <script setup>
-  import { ref, onMounted } from "vue";
+  import { ref, onMounted, onBeforeUnmount} from "vue";
   import GuestLayout from "@/Layouts/GuestLayout.vue";
   import { Head, Link } from "@inertiajs/inertia-vue3";
 

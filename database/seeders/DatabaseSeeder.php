@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             'province' => 'Metro Manila',
             'mobile' => '09560819734',
             'postalcode' => '1106',
-            'role' => 'carrier'
+            'role' => 'Carrier'
         ]);
     }
 }

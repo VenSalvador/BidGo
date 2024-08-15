@@ -18,7 +18,7 @@
         </span>
         <span class="label">Add</span>
       </button>
-      <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('MyBids')">
+      <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('my-bid')">
         <span class="icon-circle">
           <img src="../../assets/package-nav.svg" alt="My Bids Icon" class="icon" />
         </span>
@@ -31,45 +31,45 @@
         <span class="label">Profile</span>
       </button>
     </nav>
-  </template>
+</template>
 
-  <script>
-  import { Inertia } from '@inertiajs/inertia';
+<script>
+import { Inertia } from '@inertiajs/inertia';
 
-  export default {
-    methods: {
-      navigateTo(page) {
-        Inertia.visit(route(page)); // Use the Inertia visit method for navigation
-      },
+export default {
+  methods: {
+    navigateTo(page) {
+      Inertia.visit(route(page)); // Use the Inertia visit method for navigation
     },
-  };
-  </script>
+  },
+};
+</script>
 
-  <style scoped>
-  button {
-    transition: background-color 0.3s ease;
-  }
-  button:hover {
-    background-color: #ffff; /* Hover effect */
-  }
-  nav {
-    height: 5rem; /* Adjust the height of the navbar */
-  }
-  .icon {
-    height: 1.5rem; /* Adjust the height of the icons */
-    margin-bottom: 0.25rem; /* Space between icon and label */
-  }
-  .icon-circle {
-    display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    background-color: #fff;
-    text-align: center;
-    padding: 0.25rem;
-  }
-  .label {
-    font-size: 0.75rem; /* Smaller text size */
-    margin-top: 0.25rem; /* Space between icon and label */
-  }
-  </style>
+<style scoped>
+button {
+  transition: background-color 0.3s ease;
+}
+button:hover {
+  background-color: #ffff; /* Hover effect */
+}
+nav {
+  height: 5rem; /* Adjust the height of the navbar */
+}
+.icon {
+  height: 1.5rem; /* Adjust the height of the icons */
+  margin-bottom: 0.25rem; /* Space between icon and label */
+}
+.icon-circle {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: #fff;
+  text-align: center;
+  padding: 0.25rem;
+}
+.label {
+  font-size: 0.75rem; /* Smaller text size */
+  margin-top: 0.25rem; /* Space between icon and label */
+}
+</style>
