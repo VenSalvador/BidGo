@@ -1,5 +1,4 @@
 <?php
-// CarrierController.php
 
 namespace App\Http\Controllers;
 
@@ -11,6 +10,14 @@ class CarrierController extends Controller
     public function showDashboard()
     {
         // You can pass any data needed by the Vue component here
-        return Inertia::render('CarrierPages/CarrierDashboard');
+        return Inertia::render('CarrierPages/CarrierDashboard',[
+            'auth' => [
+                'user' => [
+                    'name' => auth()->user()->name,
+                    'email' => auth()->user()->email,
+                    'role' => auth()->user()->role,
+                ]
+            ]
+        ]);
     }
 }

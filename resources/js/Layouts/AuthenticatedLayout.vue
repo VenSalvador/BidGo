@@ -9,10 +9,11 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 import NavBar from '@/Components/NavBar.vue';
 
-// Access Inertia page props
-const { props } = usePage();
-const auth = props.auth || {}; // Ensure we have a default empty object
 const showingNavigationDropdown = ref(false);
+
+// Access $page directly
+const page = usePage();
+const userRole = ref(page.props.auth.user.role);
 </script>
 
 <template>
@@ -105,7 +106,7 @@ const showingNavigationDropdown = ref(false);
       <main>
         <slot />
       </main>
-      <NavBar />
+      <NavBar :userRole="userRole" />
     </div>
   </div>
 </template>
