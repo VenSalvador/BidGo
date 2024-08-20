@@ -30,7 +30,6 @@ Route::get('/provinces', [ProvinceController::class, 'index'])->name('provinces'
 Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
 
 Route::post('/register', [RegisteredUserController::class, 'store']);
-Route::get('/client-dashboard', [ClientController::class, 'showDashboard'])->name('ClientDashboard');
 
 
 // Item Controller Routes
@@ -38,6 +37,9 @@ Route::get('/items', [ItemController::class, 'index'])->name('items.index');
 Route::get('/vehicles', [ItemController::class, 'getVehicles'])->name('vehicles.index');
 Route::post('/filter-by-vehicle-type', [ItemController::class, 'filterByVehicleType']);
 
+Route:: get('/client-dashboard', function(){
+    return Inertia::render('ClientDashboard');
+})->middleware(['auth','verified'])->name('ClientDashboard');
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

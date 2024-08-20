@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -9,6 +10,10 @@ import { Link } from '@inertiajs/vue3';
 import NavBar from '@/Components/NavBar.vue';
 
 const showingNavigationDropdown = ref(false);
+
+// Access $page directly
+const page = usePage();
+const userRole = ref(page.props.auth.user.role);
 </script>
 
 <template>
@@ -51,9 +56,7 @@ const showingNavigationDropdown = ref(false);
 
                   <template #content>
                     <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
-                    <DropdownLink :href="route('logout')" method="post" as="button">
-                      Log Out
-                    </DropdownLink>
+                    <DropdownLink :href="route('logout')" method="post" as="button"> Log Out </DropdownLink>
                   </template>
                 </Dropdown>
               </div>
@@ -74,11 +77,9 @@ const showingNavigationDropdown = ref(false);
         <!-- Responsive Navigation Menu -->
         <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }" class="sm:hidden absolute w-full bg-white z-30">
           <div class="pt-2 pb-3 space-y-1">
-            <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-              Dashboard
-            </ResponsiveNavLink>
+            <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')"> Dashboard </ResponsiveNavLink>
           </div>
-
+          
           <!-- Responsive Settings Options -->
           <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
@@ -88,9 +89,7 @@ const showingNavigationDropdown = ref(false);
 
             <div class="mt-3 space-y-1">
               <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
-              <ResponsiveNavLink :href="route('logout')" method="post" as="button">
-                Log Out
-              </ResponsiveNavLink>
+              <ResponsiveNavLink :href="route('logout')" method="post" as="button"> Log Out </ResponsiveNavLink>
             </div>
           </div>
         </div>
@@ -107,7 +106,7 @@ const showingNavigationDropdown = ref(false);
       <main>
         <slot />
       </main>
-      <NavBar />
+      <NavBar :userRole="userRole" />
     </div>
   </div>
 </template>
