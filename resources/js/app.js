@@ -16,7 +16,7 @@ createInertiaApp({
         const app = createApp({ render: () => h(App, props) });
 
         // Use ZiggyVue plugin
-        app.use(ZiggyVue);
+        app.use(ZiggyVue, Ziggy);
 
         // Add the route method globally
         app.mixin({
