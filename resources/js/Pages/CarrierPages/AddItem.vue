@@ -1,12 +1,4 @@
 <template>
-
-<!--
-    ISSUE
-    Error 500: Possible Mismatch ng column names sa may axios or pagpasa
-
-
-
--->
     <AuthenticatedLayout>
       <transition name="fade">
         <div class="bg-eeF4ED min-h-screen relative">
@@ -245,35 +237,38 @@
   };
 
   const submitForm = async () => {
-  try {
-    const response = await axios.post('/add-item', {
-      item_name: itemName.value,
-      item_quote: itemQuote.value,
-      item_pickup_time: itemPickupTime.value,
-      item_dropoff_time: itemDropoffTime.value,
-      item_from: itemPickupLocation.value,
-      item_destination: itemDestination.value,
-      item_weight: itemWeight.value,
-      item_height: itemHeight.value,
-      item_width: itemWidth.value,
-      item_length: itemLength.value,
-      description: itemDescription.value,
-      vehicle_type: selectedVehicle?.vehicle_type,
-      user_id: 1, // Replace with the actual user ID
-      item_image: 'path/path',
-      item_status: 'pending',
-      is_bid_placed:0,
-      item_current_bids:0,
-    });
+    try {
+        const formData = {
+            item_name: itemName.value,
+            item_quote: itemQuote.value,
+            item_pickup_time: itemPickupTime.value,
+            item_dropoff_time: itemDropoffTime.value,
+            item_from: itemPickupLocation.value,
+            item_destination: itemDestination.value,
+            item_weight: itemWeight.value,
+            item_height: itemHeight.value,
+            item_width: itemWidth.value,
+            item_length: itemLength.value,
+            description: itemDescription.value,
+            vehicle_type: selectedVehicle.value.vehicle_type,
+            user_id: 1,
+        };
 
-    if (response.data.success) {
-      alert('Item successfully added: ' + JSON.stringify(response.data.item));
-      // Redirect or show success message
+        const response = await axios.post('/your-endpoint', formData);
+        if (response.data.success) {
+            alert('Item created successfully!');
+        } else {
+            alert('Failed to create item.');
+        }
+    } catch (error) {
+        if (error.response && error.response.status === 422) {
+            alert('Validation error: ' + JSON.stringify(error.response.data.errors));
+        } else {
+            alert('An error occurred: ' + error.message);
+        }
     }
-  } catch (error) {
-    alert('Error submitting form: ' + error);
-  }
 };
+
 
   const goToNextWindow = () => {
     if (currentWindow.value === 1) {

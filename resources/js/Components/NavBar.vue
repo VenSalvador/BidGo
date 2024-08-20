@@ -12,7 +12,7 @@
         </span>
         <span class="label">My Sale</span>
       </button>
-      <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('add-item')">
+      <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('AddItem2')">
         <span class="icon-circle">
           <img src="../../assets/plus-nav.svg" alt="Add Icon" class="icon" />
         </span>

@@ -8,7 +8,7 @@ use App\Http\Controllers\BidController;
 use App\Http\Controllers\MyBidsController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\ProvinceController;
-use App\Http\Controllers\AddItemController;
+use App\Http\Controllers\AddItemController2;
 use App\Http\Controllers\MyItemsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -32,8 +32,6 @@ Route::get('/register', [RegisteredUserController::class, 'create'])->name('regi
 Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::get('/client-dashboard', [ClientController::class, 'showDashboard'])->name('ClientDashboard');
 
-Route::get('/add-item', [AddItemController::class, 'showAddItem'])->name('AddItem');
-
 
 // Item Controller Routes
 Route::get('/items', [ItemController::class, 'index'])->name('items.index');
@@ -54,7 +52,6 @@ Route::get('/items/{item}/bids', [MyItemsController::class, 'getItemBids']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/add-item', [AddItemController::class, 'store']);
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/submit-bid', [ItemController::class, 'submitBid'])->name('submitBid');
@@ -62,6 +59,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/bids/{id}', [BidController::class, 'update'])->name('bids.update');
     Route::delete('/bids/{id}', [BidController::class, 'destroy'])->name('bids.destroy');
     Route::get('/my-items', [MyItemsController::class, 'showMyItems'])->name('MyItems');
+
+    Route::get('/add-item2', [AddItemController2::class, 'showAddItem'])->name('AddItem2');
+    Route::post('/add-item2', [AddItemController2::class, 'store'])->name('addItem2.store');
 });
 
 require __DIR__.'/auth.php';
