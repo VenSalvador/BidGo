@@ -33,32 +33,33 @@ class AddItemController extends Controller
                 'user_id' => 'required|exists:users,id',
             ]);
 
-            // Add default values for item_path and item_status
-            $validatedData['item_image'] = 'path/path';
+
+            // Handle image upload if any
+            if ($request->hasFile('item_image')) {
+                $validatedData['item_image'] = $request->file('item_image')->store('images/items', 'public');
+            } else {
+                $validatedData['item_image'] = 'default/path/to/image.png';  // Default image or placeholder
+            }
+
+            // Add default values for item_status and bids
             $validatedData['item_status'] = 'pending';
             $validatedData['item_current_bids'] = 0;
             $validatedData['is_bid_placed'] = 0;
 
-
-
-            $item = Item::create($validatedData + [
-                'vehicle_type' => $request->input('vehicle.vehicle_type'),
-                'item_path' => 'path/path',
-                'item_status' => 'pending',
-                'is_bid_placed' => 0,
-                'item_current_bids'=>0,
-            ]);
+            // Store the item in the database
+            $item = Item::create($validatedData);
 
             // Log the creation for debugging
             \Log::info('Item created successfully', ['item' => $item]);
 
-            // Return a response
+            // Return a success response
             return response()->json(['success' => true, 'item' => $item], 201);
-        } catch (\Exception $e) {
-            // Log the error
-            \Log::error('Error creating item', ['error' => $e->getMessage()]);
 
-            // Return an error response
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            \Log::error('Validation error', ['errors' => $e->errors()]);
+            return response()->json(['success' => false, 'errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            \Log::error('Error creating item', ['error' => $e->getMessage()]);
             return response()->json(['success' => false, 'error' => 'An error occurred while creating the item.'], 500);
         }
     }

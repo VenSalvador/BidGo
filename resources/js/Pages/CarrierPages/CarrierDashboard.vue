@@ -52,8 +52,9 @@
               class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
             >
               <ItemCard
-                v-for="item in items"
-                :key="item.id"
+              v-for="item in items"
+              :key="item.id"
+              :bids-count="item.bids_count"
                 class="item-card relative flex flex-col border border-gray-300 rounded-lg overflow-hidden transition-transform duration-200 ease-in-out hover:transform hover:scale-105"
                 :item-name="item.item_name"
                 :item-image="item.item_image"
@@ -130,8 +131,8 @@
                       <span>{{ selectedItem.item_destination }}</span>
                     </div>
                     <div class="flex justify-between border-b pb-2">
-                      <label class="font-bold">Current Bids:</label>
-                      <span>{{ selectedItem.item_current_bids }}</span>
+                        <label class="font-bold">Current Bids:</label>
+                        <span>{{ selectedItem.bids_count }}</span> <!-- Use bids_count field -->
                     </div>
                     <div class="flex justify-between border-b pb-2">
                       <label class="font-bold">Quote/Pricing:</label>
@@ -253,12 +254,20 @@ const filterItems = async (vehicleType) => {
 };
 
 const showModal = (item) => {
-  selectedItem.value = { ...item, formattedPickupTime: moment(item.item_pickup_time).format('MMM D, YYYY h:mm A') };
+  selectedItem.value = {
+    ...item,
+    formattedPickupTime: moment(item.item_pickup_time).format('MMM D, YYYY h:mm A'),
+    currentBids: item.bids_count // Set current bids from the bid count
+  };
   modalVisible.value = true;
 };
 
 const openBidModal = (item) => {
-  selectedItem.value = { ...item, formattedPickupTime: moment(item.item_pickup_time).format('MMM D, YYYY h:mm A') };
+  selectedItem.value = {
+    ...item,
+    formattedPickupTime: moment(item.item_pickup_time).format('MMM D, YYYY h:mm A'),
+    currentBids: item.bids_count // Set current bids from the bid count
+  };
   bidModalVisible.value = true;
 };
 
@@ -280,7 +289,7 @@ const confirmBid = async () => {
   try {
     bidPlaced.value = true;
     bidModalVisible.value = false;
-    selectedItem.value.currentBids++;
+    selectedItem.value.currentBids++; // Increment the bid count locally
 
     // Navigate to the ReviewAndConfirm component
     step.value = 2;
@@ -288,6 +297,7 @@ const confirmBid = async () => {
     console.error('Error submitting bid:', error);
   }
 };
+
 
 const cancel = () => {
   modalVisible.value = false;

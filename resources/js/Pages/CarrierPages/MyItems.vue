@@ -9,7 +9,10 @@
               <p>{{ item.description }}</p>
               <p class="text-gray-600">Price: ₱{{ item.item_quote }}</p>
               <p class="text-gray-600">Posted on: {{ new Date(item.created_at).toLocaleDateString() }}</p>
-              <button @click="showBids(item)" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg">Show Bids</button>
+              <div class="flex space-x-2 mt-4">
+                <button @click="showItemInfoModal(item)" class="bg-blue-500 text-white py-2 px-4 rounded-lg">Item & Shipping Info</button>
+                <button @click="showBidsModal(item)" class="bg-green-500 text-white py-2 px-4 rounded-lg">Show Bids</button>
+              </div>
             </div>
           </div>
           <div v-else>
@@ -17,64 +20,172 @@
           </div>
         </div>
 
+        <!-- Item and Shipping Information Modal -->
         <transition name="fade">
-          <div v-if="modalVisible" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75">
+          <div v-if="itemInfoModalVisible" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75">
             <div class="bg-white p-6 rounded-lg w-full max-w-sm max-h-screen overflow-auto">
               <div class="bg-orange-400 rounded-t-lg p-3">
-                <div class="text-center text-lg mb-4">Bids for {{ selectedItem.itemName }}</div>
+                <div class="text-center text-lg mb-4">Shipping Information</div>
               </div>
               <div class="space-y-4">
-                <div v-for="bid in bids" :key="bid.id" class="flex justify-between border-b pb-2">
-                  <span>₱{{ bid.bid_amount }}</span>
-                  <span>{{ bid.user.name }}</span>
+                <div class="flex justify-between border-b pb-2">
+                  <label class="font-bold">Ship Out Date:</label>
+                  <span>{{ selectedItem.formattedPickupTime }}</span>
                 </div>
+                <div class="flex justify-between border-b pb-2">
+                  <label class="font-bold">Vehicle: </label>
+                  <span>{{ selectedItem.vehicle_type }}</span>
+                </div>
+                <div class="flex justify-between border-b pb-2">
+                  <label class="font-bold">Destination: </label>
+                  <span>{{ selectedItem.destination }}</span>
+                </div>
+                <div class="flex justify-between border-b pb-2">
+                  <label class="font-bold">Current Bids:</label>
+                  <span>{{ selectedItem.currentBids }}</span>
+                </div>
+                <div class="flex justify-between border-b pb-2">
+                  <label class="font-bold">Quote/Pricing:</label>
+                  <span>{{ selectedItem.quote }}</span>
+                </div>
+                <button @click="showItemInfo = !showItemInfo" class="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg">
+                  Show Item Information
+                </button>
+                <transition name="fade">
+                  <div v-if="showItemInfo" class="border border-gray-300 rounded-lg p-4 mt-4 bg-white space-y-2">
+                    <div class="flex justify-between border-b pb-2">
+                      <label class="font-bold">Description:</label>
+                      <span>{{ selectedItem.itemName }}</span>
+                    </div>
+                    <div class="flex justify-between border-b pb-2">
+                      <label class="font-bold">Length:</label>
+                      <span>{{ selectedItem.length }} cm</span>
+                    </div>
+                    <div class="flex justify-between border-b pb-2">
+                      <label class="font-bold">Width:</label>
+                      <span>{{ selectedItem.width }} cm</span>
+                    </div>
+                    <div class="flex justify-between border-b pb-2">
+                      <label class="font-bold">Height:</label>
+                      <span>{{ selectedItem.height }} cm</span>
+                    </div>
+                    <div class="flex justify-between border-b pb-2">
+                      <label class="font-bold">Weight:</label>
+                      <span>{{ selectedItem.weight }} kg</span>
+                    </div>
+                  </div>
+                </transition>
               </div>
-              <button @click="cancel" class="mt-6 w-full bg-red-500 text-white py-2 rounded-lg">Close</button>
+              <button @click="cancelItemInfoModal" class="mt-6 w-full bg-red-500 text-white py-2 rounded-lg">Close</button>
             </div>
           </div>
         </transition>
+  <!-- Show Bids Modal -->
+  <transition name="fade">
+    <div v-if="bidsModalVisible" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75">
+      <div class="bg-white p-6 rounded-lg w-full max-w-sm max-h-screen overflow-auto">
+        <div class="bg-orange-400 rounded-t-lg p-3">
+          <div class="text-center text-lg mb-4">Bids for {{ selectedItem.itemName }}</div>
+        </div>
+        <div class="space-y-4">
+          <div
+            v-for="bid in sortedBids"
+            :key="bid.id"
+            :class="{
+              'bg-green-100': bid === sortedBids[0],  // Lowest bid
+              'bg-red-100': bid === sortedBids[sortedBids.length - 1] // Highest bid
+            }"
+            class="flex justify-between items-center border-b pb-2"
+          >
+            <span>₱{{ bid.bid_amount }}</span>
+            <div class="flex items-center space-x-2">
+              <span>{{ bid.user.name }}</span>
+              <!-- Placeholder View button -->
+              <button class="text-blue-500 underline">View</button>
+            </div>
+          </div>
+        </div>
+        <!-- Bottom part of the modal -->
+        <div class="mt-6 w-full bg-red-500 text-white py-2 rounded-lg">
+          <button @click="cancelBidsModal" class="w-full">Close</button>
+        </div>
       </div>
-    </AuthenticatedLayout>
-  </template>
+    </div>
+  </transition>
+</div>
+</AuthenticatedLayout>
+</template>
 
-  <script>
-  import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
-  export default {
-    components: {
-      AuthenticatedLayout
-    },
-    props: {
-      items: Array
-    },
-    data() {
-      return {
-        modalVisible: false,
-        selectedItem: {},
-        bids: []
-      };
-    },
-    methods: {
-      async showBids(item) {
-        this.selectedItem = {
-          itemName: item.item_name,
-        };
+<script>
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import moment from 'moment';
+import axios from 'axios';
 
-        // Fetch the bids for the selected item
-        const response = await axios.get(`/items/${item.id}/bids`);
-        this.bids = response.data;
-
-        this.modalVisible = true;
-      },
-      cancel() {
-        this.modalVisible = false;
-      }
+export default {
+  components: {
+    AuthenticatedLayout
+  },
+  props: {
+    items: Array
+  },
+  data() {
+    return {
+      itemInfoModalVisible: false,
+      bidsModalVisible: false,
+      showItemInfo: false,
+      selectedItem: {},
+      bids: []
+    };
+  },
+  computed: {
+    sortedBids() {
+      return this.bids.slice().sort((a, b) => a.bid_amount - b.bid_amount);
     }
-  };
-  </script>
+  },
+  methods: {
+    async showItemInfoModal(item) {
+    // Fetch the number of bids for the selected item
+    const response = await axios.get(`/items/${item.id}/bids`);
+    const bidsCount = response.data.length;
 
-  <style scoped>
-  .my-items-page {
-    background-color: #EEF4ED;
+    this.selectedItem = {
+      formattedPickupTime: moment(item.item_pickup_time).format('MMMM Do YYYY'),
+      vehicle_type: item.vehicle_type,
+      destination: item.item_destination,
+      currentBids: bidsCount, // Set the current bids count
+      quote: item.item_quote,
+      itemName: item.item_name,
+      length: item.item_length,
+      width: item.item_width,
+      height: item.item_height,
+      weight: item.item_weight
+    };
+    this.itemInfoModalVisible = true;
+  },
+    cancelItemInfoModal() {
+      this.itemInfoModalVisible = false;
+    },
+    async showBidsModal(item) {
+      this.selectedItem = {
+        itemName: item.item_name,
+      };
+
+      // Fetch the bids for the selected item
+      const response = await axios.get(`/items/${item.id}/bids`);
+      this.bids = response.data;
+
+      this.bidsModalVisible = true;
+    },
+    cancelBidsModal() {
+      this.bidsModalVisible = false;
+    }
   }
-  </style>
+};
+</script>
+
+<style scoped>
+.my-items-page {
+  background-color: #EEF4ED;
+}
+</style>

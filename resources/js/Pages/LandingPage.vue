@@ -43,12 +43,11 @@
                 >
                   Our mission is to simplify the logistics of moving items, offering you a seamless experience from start to finish. With BidGo, you can browse bids from multiple drivers and choose the one that best fits your needs and budget.
                   <button
-                    v-if="!showCarousel"
-                    class="continue-btn btn-primary absolute bottom-3 left-3 px-3 py-1 bg-orange-500 text-white hover:bg-orange-700 rounded"
-                    @click.stop="showCarousel = true"
-                  >
-                    Continue
-                  </button>
+                  class="continue-btn btn-primary absolute bottom-3 left-3 px-3 py-1 bg-orange-500 text-white hover:bg-orange-700 rounded"
+                  @click.stop="goToLogin"
+                >
+                  Continue
+                </button>
                 </div>
               </transition>
             </div>
@@ -120,10 +119,9 @@
                   unparalleled flexibility and choice.
                   <div v-if="showMoreCard2 || isLargeScreen">
                     <div>
-                      <button
-                        v-if="!showCarousel"
+                        <button
                         class="continue-btn btn-primary absolute bottom-3 left-3 px-3 py-1 bg-orange-500 text-white hover:bg-orange-700 rounded"
-                        @click.stop="showCarousel = true"
+                        @click.stop="goToLogin"
                       >
                         Continue
                       </button>
@@ -152,6 +150,8 @@
   import { ref, onMounted, onBeforeUnmount} from "vue";
   import GuestLayout from "@/Layouts/GuestLayout.vue";
   import { Head, Link } from "@inertiajs/inertia-vue3";
+  import { Inertia } from '@inertiajs/inertia';
+
 
   const landingPage = ref(null);
   const items = ref([]);
@@ -169,6 +169,10 @@
     { title: "Step 3", content: "Step 3: Start using our services" },
     // Add more items as needed
   ]);
+
+  const goToLogin = () => {
+  Inertia.visit(route('login'));
+};
 
   // Function to toggle content visibility for Card 1
   const toggleContentCard1 = () => {

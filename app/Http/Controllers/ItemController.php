@@ -12,9 +12,13 @@ class ItemController extends Controller
 {
     public function index()
     {
-        $items = Item::with('user:id,name')->get();
+        $items = Item::with('user:id,name')
+                     ->withCount('bids') // This will count bids related to each item
+                     ->get();
         return response()->json($items);
     }
+
+
 
     public function getVehicles()
     {
@@ -53,4 +57,5 @@ class ItemController extends Controller
 
         return response()->json($items);
     }
+
 }
