@@ -59,9 +59,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/bids/{id}', [BidController::class, 'update'])->name('bids.update');
     Route::delete('/bids/{id}', [BidController::class, 'destroy'])->name('bids.destroy');
     Route::get('/my-items', [MyItemsController::class, 'showMyItems'])->name('MyItems');
-
+    Route::get('/lowest-bids', [BidController::class, 'lowestBids']);
     Route::get('/add-item2', [AddItemController2::class, 'showAddItem'])->name('AddItem2');
     Route::post('/add-item2', [AddItemController2::class, 'store'])->name('addItem2.store');
+
 });
 
 require __DIR__.'/auth.php';
