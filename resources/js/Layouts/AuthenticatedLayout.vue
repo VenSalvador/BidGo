@@ -11,12 +11,7 @@ import NavBar from '@/Components/NavBar.vue';
 
 const showingNavigationDropdown = ref(false);
 
-// Access $page directly
 const page = usePage();
-// const userRole = ref(page.props.auth.user.role);
-// const userRole = ref(page.props.auth);
-// const userRole = ref(page.props.auth.user.role || 'Client');
-// console.log("Auth role:", userRole.value);
 </script>
 
 <template>
