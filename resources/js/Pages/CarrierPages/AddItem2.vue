@@ -146,9 +146,8 @@
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "axi8zrvx"); // Replace with your upload preset name
-    formData.append("cloud_name", "dmebtqdqc"); // Replace with your Cloudinary cloud name
 
-    fetch(`https://api.cloudinary.com/v1_1/${formData.get("dmebtqdqc")}/image/upload`, {
+    fetch(`https://api.cloudinary.com/v1_1/dmebtqdqc/image/upload`, {
       method: "POST",
       body: formData,
     })
@@ -161,6 +160,7 @@
       });
   }
 };
+
 
   // Methods
   const goToNextWindow = () => {
