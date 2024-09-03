@@ -28,4 +28,16 @@ class MyItemsController extends Controller
 
         return response()->json($bids);
     }
+    public function destroyItem($itemId)
+    {
+        try {
+            Item::destroy($itemId);
+            return response()->json(['message' => 'Item deleted successfully']);
+        } catch (\Exception $e) {
+            Log::error('Error deleting item: ' . $e->getMessage());
+            return response()->json(['message' => 'Error deleting item'], 500);
+        }
+    }
+
+
 }
