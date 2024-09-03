@@ -12,6 +12,7 @@
               <div class="flex space-x-2 mt-4">
                 <button @click="showItemInfoModal(item)" class="bg-blue-500 text-white py-2 px-4 rounded-lg">Item & Shipping Info</button>
                 <button @click="showBidsModal(item)" class="bg-green-500 text-white py-2 px-4 rounded-lg">Show Bids</button>
+                <button @click="confirmRemoveItem(item)" class="bg-red-500 text-white py-2 px-4 rounded-lg">Remove Item</button>
               </div>
             </div>
           </div>
@@ -80,29 +81,34 @@
             </div>
           </div>
         </transition>
-  <!-- Show Bids Modal -->
-  <transition name="fade">
+<!-- Show Bids Modal -->
+<transition name="fade">
     <div v-if="bidsModalVisible" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75">
       <div class="bg-white p-6 rounded-lg w-full max-w-sm max-h-screen overflow-auto">
         <div class="bg-orange-400 rounded-t-lg p-3">
           <div class="text-center text-lg mb-4">Bids for {{ selectedItem.itemName }}</div>
         </div>
         <div class="space-y-4">
-          <div
-            v-for="bid in sortedBids"
-            :key="bid.id"
-            :class="{
-              'bg-green-100': bid === sortedBids[0],  // Lowest bid
-              'bg-red-100': bid === sortedBids[sortedBids.length - 1] // Highest bid
-            }"
-            class="flex justify-between items-center border-b pb-2"
-          >
-            <span>₱{{ bid.bid_amount }}</span>
-            <div class="flex items-center space-x-2">
-              <span>{{ bid.user.name }}</span>
-              <!-- Placeholder View button -->
-              <button class="text-blue-500 underline">View</button>
+          <div v-if="sortedBids.length > 0">
+            <div
+              v-for="bid in sortedBids"
+              :key="bid.id"
+              :class="{
+                'bg-green-100': bid === sortedBids[0],  // Lowest bid
+                'bg-red-100': bid === sortedBids[sortedBids.length - 1] // Highest bid
+              }"
+              class="flex justify-between items-center border-b pb-2"
+            >
+              <span>₱{{ bid.bid_amount }}</span>
+              <div class="flex items-center space-x-2">
+                <span>{{ bid.user.name }}</span>
+                <!-- Placeholder View button -->
+                <button class="text-blue-500 underline">View</button>
+              </div>
             </div>
+          </div>
+          <div v-else>
+            <p class="text-center text-gray-600">No Bids Placed Yet.</p>
           </div>
         </div>
         <!-- Bottom part of the modal -->
@@ -179,7 +185,26 @@ export default {
     },
     cancelBidsModal() {
       this.bidsModalVisible = false;
-    }
+    },
+
+    confirmRemoveItem(item) {
+      // Show a confirmation modal
+      if (confirm(`Are you sure you want to remove item ${item.item_name}?`)) {
+        this.removeItem(item);
+      }
+    },
+    async removeItem(item) {
+  try {
+    // Make a DELETE request to your API to delete the item
+    await axios.delete(`/items/${item.id}`);
+
+    // Remove the item from the local state
+    this.items = this.items.filter(i => i.id !== item.id);
+  } catch (error) {
+    console.error('Error deleting item:', error);
+  }
+}
+
   }
 };
 </script>

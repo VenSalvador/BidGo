@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/lowest-bids', [BidController::class, 'lowestBids']);
     Route::get('/add-item2', [AddItemController2::class, 'showAddItem'])->name('AddItem2');
     Route::post('/add-item2', [AddItemController2::class, 'store'])->name('addItem2.store');
+    Route::delete('/items/{itemId}', [MyItemsController::class, 'destroyItem']);
 
 });
 
