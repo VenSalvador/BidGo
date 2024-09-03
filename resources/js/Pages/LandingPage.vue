@@ -22,8 +22,8 @@
           <div class="bg-orange-500 p-3 rounded-t-lg">
             <div class="block sm:hidden w-full mb-3 text-center">
               <img
-                src="../../assets/programmer.jpg"
-                alt="Image"
+              src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725349509/z0fggbkffdoccmaxyofl.jpg"
+              alt="Image"
                 class="w-3/4 h-auto rounded-md mx-auto"
               />
             </div>
@@ -59,7 +59,7 @@
                 class="absolute inset-0 bg-gradient-to-l from-transparent to-white rounded-md"
               ></div>
               <img
-                src="../../assets/programmer.jpg"
+                src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725349509/z0fggbkffdoccmaxyofl.jpg"
                 alt="Image"
                 class="w-full h-32 md:h-full object-cover rounded-md"
               />
@@ -86,7 +86,7 @@
           <div class="bg-orange-500 p-3 rounded-t-lg">
             <div class="block sm:hidden w-full mb-3 text-center">
               <img
-                src="../../assets/delivery.jpg"
+                src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725349517/r4qkf6teartbb7jadiia.jpg"
                 alt="Image"
                 class="w-3/4 h-auto rounded-md mx-auto"
               />
@@ -135,7 +135,7 @@
                 class="absolute inset-0 bg-gradient-to-l from-transparent to-white rounded-md"
               ></div>
               <img
-                src="../../assets/delivery.jpg"
+                src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725349517/r4qkf6teartbb7jadiia.jpg"
                 alt="Image"
                 class="w-full h-32 md:h-full object-cover rounded-md"
               />
