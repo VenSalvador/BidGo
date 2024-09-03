@@ -14,7 +14,7 @@
         </span>
         <span class="label">My Bids</span>
       </button>
-      <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('profile')">
+      <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('profile.edit')">
         <span class="icon-circle">
           <img src="../../assets/account-nav.svg" alt="Profile Icon" class="icon" />
         </span>
@@ -42,7 +42,7 @@
         </span>
         <span class="label">My Sale</span>
       </button>
-      <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('profile')">
+      <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('profile.edit')">
         <span class="icon-circle">
           <img src="../../assets/account-nav.svg" alt="Profile Icon" class="icon" />
         </span>
@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     navigateTo(page) {
-      Inertia.visit(route(page)); // Use the Inertia visit method for navigation
+      Inertia.visit(route(page));
     },
   },
 };

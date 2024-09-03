@@ -1,47 +1,45 @@
-<script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import DeleteUserForm from './Partials/DeleteUserForm.vue';
-import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
-import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
-import { Head } from '@inertiajs/vue3';
+<template>
+  <Head title="Profile" />
+  <AuthenticatedLayout>
+    <div class="container mx-auto p-4">
 
-defineProps({
-    mustVerifyEmail: {
-        type: Boolean,
-    },
-    status: {
-        type: String,
-    },
-});
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <div>
+          <label class="block font-medium text-gray-700">Name</label>
+          <p class="text-lg">{{ $page.props.auth.user.name }}</p>
+        </div>
+        <div class="mt-4">
+          <label class="block font-medium text-gray-700">Email</label>
+          <p class="text-lg">{{ $page.props.auth.user.email }}</p>
+        </div>
+        <div class="mt-4">
+          <label class="block font-medium text-gray-700">Province</label>
+          <p class="text-lg">{{ $page.props.auth.user.province }}</p>
+        </div>
+        <div class="mt-4">
+          <label class="block font-medium text-gray-700">Mobile</label>
+          <p class="text-lg">{{ $page.props.auth.user.mobile }}</p>
+        </div>
+        <div class="mt-4">
+          <label class="block font-medium text-gray-700">Postalcode</label>
+          <p class="text-lg">{{ $page.props.auth.user.postalcode }}</p>
+        </div>
+      </div>
+    </div>
+  </AuthenticatedLayout>
+</template>
+
+<script setup>
+import { ref } from "vue";
+import { usePage } from "@inertiajs/vue3";
+import { Head } from "@inertiajs/vue3";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+
+const page = usePage();
 </script>
 
-<template>
-    <Head title="Profile" />
-
-    <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Profile</h2>
-        </template>
-
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <UpdateProfileInformationForm
-                        :must-verify-email="mustVerifyEmail"
-                        :status="status"
-                        :auth="auth"
-                        class="max-w-xl"
-                    />
-                </div>
-
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <UpdatePasswordForm class="max-w-xl" />
-                </div>
-
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <DeleteUserForm class="max-w-xl" />
-                </div>
-            </div>
-        </div>
-    </AuthenticatedLayout>
-</template>
+<style scoped>
+.container {
+  max-width: 600px;
+}
+</style>
