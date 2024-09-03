@@ -8,7 +8,7 @@
         </span>
         <span class="label">Home</span>
       </button>
-      <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('my-bid')">
+      <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('MyBids')">
         <span class="icon-circle">
           <img src="../../assets/package-nav.svg" alt="My Bids Icon" class="icon" />
         </span>
@@ -36,7 +36,7 @@
         </span>
         <span class="label">Add</span>
       </button>
-      <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('mySale')">
+      <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('MyItems')">
         <span class="icon-circle">
           <img src="../../assets/currency-nav.svg" alt="My Sale Icon" class="icon" />
         </span>
@@ -58,7 +58,7 @@ import { Inertia } from '@inertiajs/inertia';
 export default {
   props: {
     userRole: {
-      type: String,    
+      type: String,
       required: true
     }
   },

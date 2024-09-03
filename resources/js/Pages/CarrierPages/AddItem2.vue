@@ -1,3 +1,7 @@
+
+<!--BUG
+ I am storing the items but there is no image being uploaded to Cloudinary
+-->
 <template>
     <AuthenticatedLayout>
       <div class="bg-[#EEF4ED] min-h-screen p-8">
@@ -51,7 +55,19 @@
                 <input v-model="form.item_height" type="number" placeholder="Height (cm)" required class="mb-4 w-full py-2 px-3 border border-gray-300 rounded-md">
                 <input v-model="form.item_status" type="text" placeholder="Status" required class="mb-4 w-full py-2 px-3 border border-gray-300 rounded-md">
                 <textarea v-model="form.description" placeholder="Description" class="mb-4 w-full py-2 px-3 border border-gray-300 rounded-md"></textarea>
-                <input v-model="form.item_image" type="text" placeholder="Image URL" class="mb-4 w-full py-2 px-3 border border-gray-300 rounded-md">
+                <label for="itemImage" class="block text-gray-700 font-semibold">Item Image</label>
+                <input
+                  type="file"
+                  @change="handleImageUpload"
+                  class="mb-4 w-full py-2 px-3 border border-gray-300 rounded-md"
+                >
+                <input
+                  v-model="form.item_image"
+                  type="text"
+                  placeholder="Image URL"
+                  class="mb-4 w-full py-2 px-3 border border-gray-300 rounded-md"
+                  readonly
+                >
                 <div class="flex justify-between">
                   <button type="button" class="mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg" @click="goBackToWindow(2)">Back</button>
                   <button type="button" class="mt-4 bg-orange-500 text-white py-2 px-4 rounded-lg" @click="goToNextWindow">Next</button>
@@ -124,6 +140,28 @@
     description: '',
   })
 
+  const handleImageUpload = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "axi8zrvx"); // Replace with your upload preset name
+    formData.append("cloud_name", "dmebtqdqc"); // Replace with your Cloudinary cloud name
+
+    fetch(`https://api.cloudinary.com/v1_1/${formData.get("dmebtqdqc")}/image/upload`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        form.value.item_image = data.secure_url; // Store the uploaded image URL in the form
+      })
+      .catch((error) => {
+        console.error("Error uploading image:", error);
+      });
+  }
+};
+
   // Methods
   const goToNextWindow = () => {
     if (currentWindow.value < 4) {
@@ -138,12 +176,12 @@
   }
 
   const submitForm = async () => {
-    try {
-      await Inertia.post('/add-item2', form.value)
-      alert('Item added successfully!')
-    } catch (error) {
-      console.error('Error adding item:', error)
-      alert('Failed to add item. Please check your input and try again.')
-    }
+  try {
+    await Inertia.post('/add-item2', form.value);
+    alert('Item added successfully!');
+  } catch (error) {
+    console.error('Error adding item:', error);
+    alert('Failed to add item. Please check your input and try again.');
   }
+};
   </script>
