@@ -4,19 +4,19 @@
     <nav v-if="userRole === 'Carrier'" class="fixed bottom-0 left-0 w-full bg-orange-500 text-white flex justify-around py-2 shadow-lg">
       <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('CarrierDashboard')">
         <span class="icon-circle">
-          <img src="../../assets/home-nav.svg" alt="Home Icon" class="icon" />
+          <img src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725434792/svg-files/wgdtfq8cxlspqggvpdi6.svg" alt="Home Icon" class="icon" />
         </span>
         <span class="label">Home</span>
       </button>
       <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('MyBids')">
         <span class="icon-circle">
-          <img src="../../assets/package-nav.svg" alt="My Bids Icon" class="icon" />
+          <img src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725434800/svg-files/nhc3weabsfh44fckzfix.svg" alt="My Bids Icon" class="icon" />
         </span>
         <span class="label">My Bids</span>
       </button>
       <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('profile.edit')">
         <span class="icon-circle">
-          <img src="../../assets/account-nav.svg" alt="Profile Icon" class="icon" />
+          <img src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725434746/svg-files/lf6buruz8ubsuyquqpyr.svg" alt="Profile Icon" class="icon" />
         </span>
         <span class="label">Profile</span>
       </button>
@@ -26,25 +26,25 @@
     <nav v-else-if="userRole === 'Client'" class="fixed bottom-0 left-0 w-full bg-orange-500 text-white flex justify-around py-2 shadow-lg">
       <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('AddItem2')">
         <span class="icon-circle">
-          <img src="../../assets/home-nav.svg" alt="Home Icon" class="icon" />
+          <img src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725434792/svg-files/wgdtfq8cxlspqggvpdi6.svg" alt="Home Icon" class="icon" />
         </span>
         <span class="label">Home</span>
       </button>
       <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('AddItem2')">
         <span class="icon-circle">
-          <img src="../../assets/plus-nav.svg" alt="Add Icon" class="icon" />
+          <img src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725434806/svg-files/obs6rjbff2okpf6ayfyl.svg" alt="Add Icon" class="icon" />
         </span>
         <span class="label">Add</span>
       </button>
       <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('MyItems')">
         <span class="icon-circle">
-          <img src="../../assets/currency-nav.svg" alt="My Sale Icon" class="icon" />
+          <img src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725434760/svg-files/yy90njeibeuikm0bc79f.svg" alt="My Sale Icon" class="icon" />
         </span>
         <span class="label">My Sale</span>
       </button>
       <button class="flex-1 text-center py-2 flex flex-col items-center" @click="navigateTo('profile.edit')">
         <span class="icon-circle">
-          <img src="../../assets/account-nav.svg" alt="Profile Icon" class="icon" />
+          <img src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725434746/svg-files/lf6buruz8ubsuyquqpyr.svg" alt="Profile Icon" class="icon" />
         </span>
         <span class="label">Profile</span>
       </button>

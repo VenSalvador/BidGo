@@ -132,7 +132,7 @@ const props = defineProps({
         <div class="shrink-0 flex items-center">
           <Link :href="route('dashboard')">
             <img
-              src="../../../assets/google-logo.png"
+              src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725436193/iqweo5axi9va5f2bngxs.png"
               alt="Google"
               class="w-10 h-10"
             />
@@ -141,7 +141,7 @@ const props = defineProps({
         <div class="shrink-0 flex items-center">
           <Link :href="route('dashboard')">
             <img
-              src="../../../assets/fb-logo.png"
+              src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725436192/pj4f2zvtukcgnhwfjhez.png"
               alt="Facebook"
               class="w-10 h-10"
             />

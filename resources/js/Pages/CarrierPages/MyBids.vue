@@ -17,7 +17,7 @@
               <div class="p-4">
                 <div class="text-lg font-bold">{{ bid.formattedPickupTime }}</div>
                 <img
-                  src="../../../assets/Package-alt.png"
+                  src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725431783/irlxmviv8snyfnx4bufd.png"
                   alt="Image"
                   class="w-full h-48 object-cover mt-2"
                 />

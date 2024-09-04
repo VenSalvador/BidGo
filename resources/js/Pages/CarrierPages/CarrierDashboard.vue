@@ -11,7 +11,7 @@
           <div v-show="step === 1">
             <div class="ongoing-text flex items-center space-x-2 text-sm font-semibold text-left mb-4">
               <span>Choose What to Browse</span>
-              <img src="../../../assets/help-circle.svg" alt="An example icon" class="help-icon w-4 h-4 cursor-pointer" @click="showHelpModal('vehicle')" />
+              <img src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725434792/svg-files/gvtmvfvjdszq36p7hcly.svg" alt="An example icon" class="help-icon w-4 h-4 cursor-pointer" @click="showHelpModal('vehicle')" />
             </div>
 
             <div class="button-group flex justify-center p-1 space-x-4">
@@ -43,7 +43,7 @@
 
             <div class="ongoing-text flex items-center p-5 space-x-2 text-sm font-semibold text-left mb-4">
               <span>All Products</span>
-              <img src="../../../assets/help-circle.svg" alt="An example icon" class="help-icon w-4 h-4 cursor-pointer" @click="showHelpModal('ongoing')" />
+              <img src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725434792/svg-files/gvtmvfvjdszq36p7hcly.svg" alt="An example icon" class="help-icon w-4 h-4 cursor-pointer" @click="showHelpModal('ongoing')" />
             </div>
 
             <transition-group

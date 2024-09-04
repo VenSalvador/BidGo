@@ -4,7 +4,7 @@
       :class="{ 'hover:transform hover:scale-105': !isClicked }"
       @click="handleCardClick"
     >
-      <img src="../../assets/Package-alt.png" alt="Image" class="w-full h-48 object-cover">
+      <img src="https://res.cloudinary.com/dmebtqdqc/image/upload/v1725431783/irlxmviv8snyfnx4bufd.png" alt="Image" class="w-full h-48 object-cover">
       <div class="absolute inset-x-0 bottom-0 bg-gray-800 bg-opacity-75 p-4 text-white">
         <div class="flex justify-between items-start">
           <div class="flex flex-col">
